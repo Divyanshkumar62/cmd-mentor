@@ -1,0 +1,204 @@
+[
+  {
+    "id": "runtime.java.jar",
+    "name": "java -jar",
+    "title": "Execute a packaged Java JAR file",
+    "description": "Launches a Java application packaged as an executable JAR file, including Spring Boot applications.",
+    "commandTemplate": "java -jar <jar-file>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "development",
+      "java"
+    ],
+    "tags": [
+      "java",
+      "jar",
+      "spring",
+      "spring boot",
+      "run jar",
+      "jvm"
+    ],
+    "aliases": [
+      "run spring boot jar",
+      "execute jar file",
+      "run java application",
+      "java -jar"
+    ],
+    "flags": [
+      {
+        "name": "-Dspring.profiles.active",
+        "description": "Sets the active Spring Boot profile (e.g. dev, prod)."
+      },
+      {
+        "name": "-Xmx",
+        "description": "Specifies maximum JVM memory allocation pool (e.g. -Xmx1024m)."
+      }
+    ],
+    "examples": [
+      {
+        "command": "java -jar target/app.jar",
+        "explanation": "Executes the compiled Spring Boot application JAR file."
+      },
+      {
+        "command": "java -jar -Dspring.profiles.active=prod -Xmx2g target/app.jar",
+        "explanation": "Runs the application with production profile and 2GB maximum heap."
+      }
+    ],
+    "risk": {
+      "level": "moderate",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Spawns JVM process and may bind network ports.",
+      "reversibility": "Process can be terminated."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Oracle JDK Documentation / Spring Boot Docs"
+    },
+    "requires": {
+      "tool": "java",
+      "versionMin": "17"
+    }
+  },
+  {
+    "id": "runtime.python.venv",
+    "name": "python -m venv",
+    "title": "Create a Python virtual environment",
+    "description": "Creates lightweight, isolated Python environments with their own site directories.",
+    "commandTemplate": "python -m venv <env_name>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "development",
+      "python"
+    ],
+    "tags": [
+      "python",
+      "venv",
+      "virtualenv",
+      "isolated",
+      "pip"
+    ],
+    "aliases": [
+      "create python virtual environment",
+      "python venv",
+      "setup python env"
+    ],
+    "flags": [],
+    "examples": [
+      {
+        "command": "python -m venv .venv",
+        "explanation": "Creates an isolated virtual environment in the .venv folder."
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Creates .venv directory with Python interpreter and standard library copies.",
+      "reversibility": "Reversible by removing .venv folder."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Python Documentation"
+    },
+    "requires": {
+      "tool": "python",
+      "versionMin": "3.8"
+    }
+  },
+  {
+    "id": "runtime.node.run",
+    "name": "node",
+    "title": "Execute a JavaScript file with Node.js",
+    "description": "Runs a JavaScript source file in the Node.js V8 runtime environment.",
+    "commandTemplate": "node <script.js>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "development",
+      "javascript"
+    ],
+    "tags": [
+      "node",
+      "javascript",
+      "execute",
+      "runtime",
+      "v8"
+    ],
+    "aliases": [
+      "run javascript file",
+      "execute node script",
+      "node run"
+    ],
+    "flags": [
+      {
+        "name": "--watch",
+        "description": "Restarts the process when imported files change."
+      },
+      {
+        "name": "--inspect",
+        "description": "Activate inspector on host:port for debugging."
+      }
+    ],
+    "examples": [
+      {
+        "command": "node index.js",
+        "explanation": "Executes index.js using the current Node.js runtime."
+      },
+      {
+        "command": "node --watch server.js",
+        "explanation": "Runs server.js and automatically reloads on code modifications."
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Spawns V8 process.",
+      "reversibility": "Process can be terminated."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Node.js Official Documentation"
+    },
+    "requires": {
+      "tool": "node",
+      "versionMin": "18.0.0"
+    }
+  }
+]

@@ -1,0 +1,794 @@
+[
+  {
+    "id": "filesystem.mkdir.posix",
+    "name": "mkdir",
+    "title": "Create a directory",
+    "description": "Creates one or more directories with optional parent path creation.",
+    "commandTemplate": "mkdir <directory>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "filesystem"
+    ],
+    "tags": [
+      "folder",
+      "directory",
+      "create",
+      "make directory",
+      "new"
+    ],
+    "aliases": [
+      "create a folder",
+      "make a directory",
+      "create folder",
+      "mkdir"
+    ],
+    "flags": [
+      {
+        "name": "-p",
+        "description": "Create intermediate parent directories as needed without reporting an error if they exist."
+      },
+      {
+        "name": "-v",
+        "description": "Print a message for each created directory (POSIX)."
+      }
+    ],
+    "examples": [
+      {
+        "command": "mkdir project",
+        "explanation": "Creates a directory named 'project' in the current working directory."
+      },
+      {
+        "command": "mkdir -p src/components/ui",
+        "explanation": "Creates nested directories including parents if they do not exist."
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Allocates a new filesystem directory inode.",
+      "reversibility": "Reversible using rmdir or rm -r."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "POSIX standard / GNU coreutils"
+    },
+    "relatedCommands": [
+      "filesystem.rmdir.posix",
+      "filesystem.newitem.powershell"
+    ]
+  },
+  {
+    "id": "filesystem.newitem.powershell",
+    "name": "New-Item",
+    "title": "Create a directory or file (PowerShell)",
+    "description": "Native PowerShell cmdlet to create folders, files, or registry keys.",
+    "commandTemplate": "New-Item -ItemType Directory -Path <path>",
+    "platforms": [
+      "windows",
+      "linux",
+      "macos"
+    ],
+    "shells": [
+      "powershell"
+    ],
+    "category": [
+      "filesystem"
+    ],
+    "tags": [
+      "folder",
+      "directory",
+      "create",
+      "powershell",
+      "new-item"
+    ],
+    "aliases": [
+      "create a folder in powershell",
+      "powershell mkdir",
+      "new-item directory"
+    ],
+    "flags": [
+      {
+        "name": "-ItemType",
+        "description": "Specifies the provider-specified type of the new item ('Directory', 'File', etc.)."
+      },
+      {
+        "name": "-Force",
+        "description": "Creates items that write over read-only items or creates parent directories."
+      }
+    ],
+    "examples": [
+      {
+        "command": "New-Item -ItemType Directory -Path ./build",
+        "explanation": "Creates a folder named 'build' in the current path."
+      },
+      {
+        "command": "New-Item -ItemType Directory -Path ./src/utils -Force",
+        "explanation": "Recursively creates the utils directory structure."
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Creates a new item on the filesystem.",
+      "reversibility": "Reversible using Remove-Item."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Microsoft Learn PowerShell Reference"
+    },
+    "relatedCommands": [
+      "filesystem.mkdir.posix"
+    ]
+  },
+  {
+    "id": "filesystem.rm.posix",
+    "name": "rm",
+    "title": "Remove files or directories",
+    "description": "Removes each specified file or directory. By default does not remove directories without recursive flag.",
+    "commandTemplate": "rm <path>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "git-bash"
+    ],
+    "category": [
+      "filesystem"
+    ],
+    "tags": [
+      "delete",
+      "remove",
+      "erase",
+      "unlink",
+      "directory",
+      "file"
+    ],
+    "aliases": [
+      "delete a file",
+      "delete folder",
+      "remove directory",
+      "delete directory"
+    ],
+    "flags": [
+      {
+        "name": "-r",
+        "shorthand": "-R",
+        "description": "Remove directories and their contents recursively."
+      },
+      {
+        "name": "-f",
+        "description": "Force removal; ignore nonexistent files and arguments, never prompt."
+      },
+      {
+        "name": "-i",
+        "description": "Prompt before every removal."
+      }
+    ],
+    "examples": [
+      {
+        "command": "rm file.txt",
+        "explanation": "Removes file.txt."
+      },
+      {
+        "command": "rm -rf node_modules",
+        "explanation": "Recursively and forcefully deletes the node_modules folder."
+      }
+    ],
+    "risk": {
+      "level": "high",
+      "destructive": true,
+      "requiresElevation": false,
+      "sideEffects": "Permanently unlinks files from the filesystem without moving to trash.",
+      "reversibility": "Irreversible without filesystem recovery tools."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "POSIX standard / GNU coreutils"
+    },
+    "relatedCommands": [
+      "filesystem.removeitem.powershell"
+    ]
+  },
+  {
+    "id": "filesystem.removeitem.powershell",
+    "name": "Remove-Item",
+    "title": "Remove items in PowerShell",
+    "description": "PowerShell cmdlet that deletes files, folders, and registry keys.",
+    "commandTemplate": "Remove-Item -Path <path>",
+    "platforms": [
+      "windows",
+      "linux",
+      "macos"
+    ],
+    "shells": [
+      "powershell"
+    ],
+    "category": [
+      "filesystem"
+    ],
+    "tags": [
+      "delete",
+      "remove",
+      "erase",
+      "folder",
+      "directory",
+      "powershell"
+    ],
+    "aliases": [
+      "delete folder in powershell",
+      "remove-item",
+      "powershell delete directory"
+    ],
+    "flags": [
+      {
+        "name": "-Recurse",
+        "description": "Deletes the items in the specified locations and in all child items."
+      },
+      {
+        "name": "-Force",
+        "description": "Allows the cmdlet to remove items that cannot otherwise be changed, such as hidden or read-only files."
+      }
+    ],
+    "examples": [
+      {
+        "command": "Remove-Item -Recurse -Force ./dist",
+        "explanation": "Recursively deletes the 'dist' directory and all its contents."
+      }
+    ],
+    "risk": {
+      "level": "high",
+      "destructive": true,
+      "requiresElevation": false,
+      "sideEffects": "Permanently deletes items from disk.",
+      "reversibility": "Irreversible without data recovery software."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Microsoft Learn PowerShell Reference"
+    },
+    "relatedCommands": [
+      "filesystem.rm.posix"
+    ]
+  },
+  {
+    "id": "filesystem.ls.posix",
+    "name": "ls",
+    "title": "List directory contents",
+    "description": "Lists information about files and directories in the current or specified path.",
+    "commandTemplate": "ls [options] [path]",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "git-bash"
+    ],
+    "category": [
+      "filesystem"
+    ],
+    "tags": [
+      "list",
+      "files",
+      "directory",
+      "show",
+      "dir"
+    ],
+    "aliases": [
+      "list files",
+      "show directory contents",
+      "list folder",
+      "view files"
+    ],
+    "flags": [
+      {
+        "name": "-l",
+        "description": "Use long listing format showing permissions, owner, size, and modification date."
+      },
+      {
+        "name": "-a",
+        "shorthand": "--all",
+        "description": "Do not ignore entries starting with . (hidden files)."
+      },
+      {
+        "name": "-h",
+        "description": "With -l, print sizes in human readable format (e.g., 1K 234M 2G)."
+      }
+    ],
+    "examples": [
+      {
+        "command": "ls -lah",
+        "explanation": "Lists all files including hidden ones with human-readable sizes and full permissions."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Read-only file inspection.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "POSIX standard / GNU coreutils"
+    },
+    "relatedCommands": [
+      "filesystem.dir.cmd",
+      "filesystem.getchilditem.powershell"
+    ]
+  },
+  {
+    "id": "filesystem.cp.posix",
+    "name": "cp",
+    "title": "Copy files and directories",
+    "description": "Copies files or directories from source to destination.",
+    "commandTemplate": "cp <source> <destination>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "git-bash"
+    ],
+    "category": [
+      "filesystem"
+    ],
+    "tags": [
+      "copy",
+      "duplicate",
+      "clone",
+      "backup",
+      "files"
+    ],
+    "aliases": [
+      "copy file",
+      "copy folder",
+      "duplicate file",
+      "cp"
+    ],
+    "flags": [
+      {
+        "name": "-r",
+        "shorthand": "-R",
+        "description": "Copy directories recursively."
+      },
+      {
+        "name": "-i",
+        "description": "Prompt before overwrite."
+      },
+      {
+        "name": "-p",
+        "description": "Preserve specified attributes such as mode, ownership, timestamps."
+      }
+    ],
+    "examples": [
+      {
+        "command": "cp config.example.env .env",
+        "explanation": "Copies an example config to a new .env file."
+      },
+      {
+        "command": "cp -r ./src ./src_backup",
+        "explanation": "Recursively copies the entire src directory to src_backup."
+      }
+    ],
+    "risk": {
+      "level": "moderate",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Creates duplicate files or overwrites existing destination files.",
+      "reversibility": "Destination overwrites cannot be undone automatically."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "POSIX standard / GNU coreutils"
+    },
+    "relatedCommands": [
+      "filesystem.mv.posix",
+      "filesystem.copyitem.powershell"
+    ]
+  },
+  {
+    "id": "filesystem.mv.posix",
+    "name": "mv",
+    "title": "Move or rename files and directories",
+    "description": "Moves files or directories, or renames them if source and target are on the same filesystem.",
+    "commandTemplate": "mv <source> <destination>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "git-bash"
+    ],
+    "category": [
+      "filesystem"
+    ],
+    "tags": [
+      "move",
+      "rename",
+      "relocate",
+      "file",
+      "folder"
+    ],
+    "aliases": [
+      "rename file",
+      "move file",
+      "rename folder",
+      "move folder"
+    ],
+    "flags": [
+      {
+        "name": "-i",
+        "description": "Prompt before overwrite."
+      },
+      {
+        "name": "-f",
+        "description": "Do not prompt before overwriting."
+      }
+    ],
+    "examples": [
+      {
+        "command": "mv old_name.txt new_name.txt",
+        "explanation": "Renames old_name.txt to new_name.txt."
+      },
+      {
+        "command": "mv document.pdf ./archive/",
+        "explanation": "Moves document.pdf into the archive directory."
+      }
+    ],
+    "risk": {
+      "level": "moderate",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Changes file path or overwrites destination.",
+      "reversibility": "Can be reversed if destination did not overwrite an existing file."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "POSIX standard / GNU coreutils"
+    },
+    "relatedCommands": [
+      "filesystem.cp.posix"
+    ]
+  },
+  {
+    "id": "filesystem.pwd.posix",
+    "name": "pwd",
+    "title": "Print working directory",
+    "description": "Prints the full pathname of the current working directory.",
+    "commandTemplate": "pwd",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "git-bash"
+    ],
+    "category": [
+      "filesystem",
+      "navigation"
+    ],
+    "tags": [
+      "current directory",
+      "working directory",
+      "path",
+      "where am i",
+      "cwd"
+    ],
+    "aliases": [
+      "current folder path",
+      "where am i",
+      "show current directory",
+      "get current path"
+    ],
+    "flags": [
+      {
+        "name": "-P",
+        "description": "Print the physical directory, without any symbolic links."
+      }
+    ],
+    "examples": [
+      {
+        "command": "pwd",
+        "explanation": "Outputs the absolute path of the current directory."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "None. Read-only output.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "POSIX standard"
+    },
+    "relatedCommands": [
+      "navigation.cd.posix"
+    ]
+  },
+  {
+    "id": "navigation.cd.posix",
+    "name": "cd",
+    "title": "Change working directory",
+    "description": "Changes the current working directory of the shell execution environment.",
+    "commandTemplate": "cd <directory>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "navigation",
+      "filesystem"
+    ],
+    "tags": [
+      "navigate",
+      "directory",
+      "folder",
+      "switch",
+      "chdir"
+    ],
+    "aliases": [
+      "change folder",
+      "switch directory",
+      "go to folder",
+      "change directory"
+    ],
+    "flags": [],
+    "examples": [
+      {
+        "command": "cd ..",
+        "explanation": "Navigates to the parent directory."
+      },
+      {
+        "command": "cd ~",
+        "explanation": "Navigates to the user's home directory."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Updates shell working directory environment.",
+      "reversibility": "Reversible by cd back."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "POSIX standard"
+    },
+    "relatedCommands": [
+      "filesystem.pwd.posix"
+    ]
+  },
+  {
+    "id": "filesystem.chmod.posix",
+    "name": "chmod",
+    "title": "Change file mode bits / permissions",
+    "description": "Changes the file mode bits of each given file according to mode.",
+    "commandTemplate": "chmod <mode> <file>",
+    "platforms": [
+      "linux",
+      "macos"
+    ],
+    "shells": [
+      "bash",
+      "zsh"
+    ],
+    "category": [
+      "filesystem",
+      "permissions"
+    ],
+    "tags": [
+      "chmod",
+      "permissions",
+      "executable",
+      "read write",
+      "755"
+    ],
+    "aliases": [
+      "make file executable",
+      "change file permissions",
+      "chmod +x"
+    ],
+    "flags": [
+      {
+        "name": "+x",
+        "description": "Add execute permission for all users."
+      },
+      {
+        "name": "-R",
+        "shorthand": "--recursive",
+        "description": "Change files and directories recursively."
+      }
+    ],
+    "examples": [
+      {
+        "command": "chmod +x build.sh",
+        "explanation": "Grants executable permissions to build.sh."
+      },
+      {
+        "command": "chmod 600 ~/.ssh/id_rsa",
+        "explanation": "Sets private key permissions readable and writable only by the owner."
+      }
+    ],
+    "risk": {
+      "level": "moderate",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Updates inode permission bitmask.",
+      "reversibility": "Reversible with chmod."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "POSIX standard / GNU coreutils"
+    }
+  },
+  {
+    "id": "filesystem.touch.posix",
+    "name": "touch",
+    "title": "Change file timestamps / create empty file",
+    "description": "Update the access and modification times of each file to the current time. Creates an empty file if it does not exist.",
+    "commandTemplate": "touch <file>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "git-bash"
+    ],
+    "category": [
+      "filesystem"
+    ],
+    "tags": [
+      "touch",
+      "create file",
+      "empty file",
+      "timestamp"
+    ],
+    "aliases": [
+      "create empty file",
+      "make new file",
+      "touch file"
+    ],
+    "flags": [],
+    "examples": [
+      {
+        "command": "touch README.md",
+        "explanation": "Creates an empty file named README.md if it does not already exist."
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Creates new file or updates file timestamps.",
+      "reversibility": "Can delete file if newly created."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "POSIX standard"
+    }
+  },
+  {
+    "id": "filesystem.find.posix",
+    "name": "find",
+    "title": "Search for files in a directory hierarchy",
+    "description": "Searches the directory tree rooted at each given starting-point by evaluating the given expression.",
+    "commandTemplate": "find <path> [options] [expression]",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "git-bash"
+    ],
+    "category": [
+      "filesystem",
+      "search"
+    ],
+    "tags": [
+      "find",
+      "search files",
+      "locate",
+      "by name",
+      "find files"
+    ],
+    "aliases": [
+      "find files by name",
+      "search for file in folder",
+      "find . -name"
+    ],
+    "flags": [
+      {
+        "name": "-name",
+        "description": "Base of file name matches shell pattern."
+      },
+      {
+        "name": "-type",
+        "description": "File is of type: d (directory), f (regular file)."
+      },
+      {
+        "name": "-size",
+        "description": "File uses n units of space (e.g. +100M for larger than 100 megabytes)."
+      }
+    ],
+    "examples": [
+      {
+        "command": "find . -name \"*.ts\"",
+        "explanation": "Finds all TypeScript files in current directory tree."
+      },
+      {
+        "command": "find . -type f -size +100M",
+        "explanation": "Finds all files larger than 100 megabytes."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Read-only filesystem traversal.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "POSIX standard / GNU findutils"
+    }
+  }
+]

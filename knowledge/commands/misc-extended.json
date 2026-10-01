@@ -1,0 +1,348 @@
+[
+  {
+    "id": "system.env.cmd",
+    "name": "set",
+    "title": "View or set environment variables in CMD",
+    "description": "With no arguments it lists every environment variable. Assigning a value affects only the current Command Prompt session; use 'setx' to persist a variable.",
+    "commandTemplate": "set [name[=value]]",
+    "platforms": ["windows"],
+    "shells": ["cmd"],
+    "category": ["environment", "system"],
+    "tags": ["set", "env", "environment", "variable", "windows", "cmd", "path"],
+    "aliases": ["list environment variables in cmd", "set a variable on windows", "show path variable"],
+    "flags": [],
+    "examples": [
+      { "command": "set", "explanation": "Lists every environment variable in the current session." },
+      { "command": "set NODE_ENV=production", "explanation": "Sets a variable for this Command Prompt session only." }
+    ],
+    "risk": { "level": "low", "destructive": false, "requiresElevation": false, "sideEffects": "Affects the current shell session only; changes vanish when it closes.", "reversibility": "Reversible by closing the session." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "learn.microsoft.com/windows-server/administration/windows-commands/set_1" },
+    "relatedCommands": ["system.env.posix", "system.env.powershell"]
+  },
+  {
+    "id": "archive.zip.posix",
+    "name": "zip",
+    "title": "Create a ZIP archive",
+    "description": "Packages files into a compressed .zip archive. ZIP is the most portable choice when the recipient may be on Windows.",
+    "commandTemplate": "zip <archive.zip> <files>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "git-bash", "fish"],
+    "category": ["archive"],
+    "tags": ["zip", "compress", "archive", "package", "bundle"],
+    "aliases": ["create a zip file", "compress a folder", "make an archive"],
+    "flags": [
+      { "name": "-r", "description": "Recurse into directories." },
+      { "name": "-9", "description": "Maximum compression, which is slower." },
+      { "name": "-e", "description": "Encrypt the archive with a password prompt." }
+    ],
+    "examples": [
+      { "command": "zip -r project.zip ./src", "explanation": "Compresses the src directory into project.zip." }
+    ],
+    "risk": { "level": "low", "destructive": false, "requiresElevation": false, "sideEffects": "Creates a new archive file; overwrites an existing archive of the same name.", "reversibility": "Reversible by deleting the archive." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "linux.die.net/man/1/zip" },
+    "requires": { "tool": "zip" },
+    "relatedCommands": ["archive.unzip.posix", "archive.tar.posix", "archive.gzip.posix"]
+  },
+  {
+    "id": "archive.gzip.posix",
+    "name": "gzip",
+    "title": "Compress a single file with gzip",
+    "description": "Compresses one file in place, replacing it with a .gz version. It handles a single file, not directories - use tar for a tree.",
+    "commandTemplate": "gzip <file>",
+    "platforms": ["linux", "macos"],
+    "shells": ["bash", "zsh", "git-bash", "fish"],
+    "category": ["archive"],
+    "tags": ["gzip", "gunzip", "compress", "gz", "archive"],
+    "aliases": ["compress a file", "gzip a log file", "make a gz file"],
+    "flags": [
+      { "name": "-k", "description": "Keep the original file instead of replacing it." },
+      { "name": "-d", "description": "Decompress instead of compress, equivalent to gunzip." },
+      { "name": "-9", "description": "Best compression at the cost of speed." }
+    ],
+    "examples": [
+      { "command": "gzip -k app.log", "explanation": "Creates app.log.gz while keeping the original file." },
+      { "command": "gzip -d app.log.gz", "explanation": "Decompresses the archive back to app.log." }
+    ],
+    "risk": { "level": "moderate", "destructive": true, "requiresElevation": false, "sideEffects": "Without -k the original file is replaced by the compressed version.", "reversibility": "Reversible by decompressing with -d." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/gzip.1.html" },
+    "relatedCommands": ["archive.tar.posix", "archive.zip.posix"]
+  },
+  {
+    "id": "package.pip.install",
+    "name": "pip install",
+    "title": "Install Python packages",
+    "description": "Installs packages from the Python Package Index into the active environment. Always activate a virtual environment first so you do not modify the system Python.",
+    "commandTemplate": "pip install <package>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["package-manager", "python"],
+    "tags": ["pip", "python", "install", "package", "dependency", "requirements"],
+    "aliases": ["install a python package", "add a python dependency", "install from requirements"],
+    "flags": [
+      { "name": "-r", "description": "Install every package listed in a requirements file." },
+      { "name": "-U", "description": "Upgrade the package to the latest version." },
+      { "name": "-e", "description": "Install a local project in editable mode." }
+    ],
+    "examples": [
+      { "command": "pip install requests", "explanation": "Installs the requests library into the active environment." },
+      { "command": "pip install -r requirements.txt", "explanation": "Installs every pinned dependency for the project." }
+    ],
+    "risk": { "level": "moderate", "destructive": false, "requiresElevation": false, "sideEffects": "Downloads and executes package setup code; modifies the active Python environment.", "reversibility": "Reversible with 'pip uninstall', though installed setup scripts may leave artifacts." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "pip.pypa.io/en/stable/cli/pip_install" },
+    "requires": { "tool": "pip" },
+    "relatedCommands": ["runtime.python.venv", "package.npm.install"]
+  },
+  {
+    "id": "package.apt.install",
+    "name": "apt install",
+    "title": "Install system packages on Debian and Ubuntu",
+    "description": "Installs packages system-wide using the APT package manager. It requires root, and it can pull in or remove dependent packages as part of the operation.",
+    "commandTemplate": "apt install <package>",
+    "platforms": ["linux"],
+    "shells": ["bash", "zsh", "fish"],
+    "category": ["package-manager", "system"],
+    "tags": ["apt", "apt-get", "install", "package", "debian", "ubuntu", "system"],
+    "aliases": ["install a package on ubuntu", "apt get install", "add system software"],
+    "flags": [
+      { "name": "-y", "description": "Assume yes to prompts, for non-interactive use." },
+      { "name": "--no-install-recommends", "description": "Skip recommended but non-essential packages." }
+    ],
+    "examples": [
+      { "command": "apt install nginx", "explanation": "Installs the nginx package and its dependencies." }
+    ],
+    "risk": { "level": "high", "destructive": false, "requiresElevation": true, "sideEffects": "Modifies system-wide software, may remove conflicting packages, and runs maintainer scripts as root.", "reversibility": "Mostly reversible with 'apt remove', but configuration changes may persist." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "manpages.debian.org/apt" },
+    "requires": { "tool": "apt" },
+    "relatedCommands": ["package.brew.install", "service.systemctl.status"]
+  },
+  {
+    "id": "package.brew.install",
+    "name": "brew install",
+    "title": "Install packages with Homebrew on macOS",
+    "description": "Installs a formula or cask using Homebrew. Unlike apt it does not normally require root, because Homebrew owns its own prefix.",
+    "commandTemplate": "brew install <formula>",
+    "platforms": ["macos", "linux"],
+    "shells": ["bash", "zsh", "fish"],
+    "category": ["package-manager", "system"],
+    "tags": ["brew", "homebrew", "install", "package", "macos", "formula", "cask"],
+    "aliases": ["install a package on mac", "homebrew install", "add software on macos"],
+    "flags": [
+      { "name": "--cask", "description": "Install a GUI application rather than a command-line formula." },
+      { "name": "--dry-run", "description": "Show what would be installed without doing it." }
+    ],
+    "examples": [
+      { "command": "brew install ripgrep", "explanation": "Installs the ripgrep command-line tool." }
+    ],
+    "risk": { "level": "moderate", "destructive": false, "requiresElevation": false, "sideEffects": "Downloads and installs software into the Homebrew prefix; may upgrade dependencies.", "reversibility": "Reversible with 'brew uninstall'." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "docs.brew.sh" },
+    "requires": { "tool": "brew" },
+    "relatedCommands": ["package.apt.install"]
+  },
+  {
+    "id": "docker.exec.posix",
+    "name": "docker exec",
+    "title": "Run a command inside a running container",
+    "description": "Executes a command in a container that is already running. With -it it opens an interactive shell, which is the usual way to inspect a live container.",
+    "commandTemplate": "docker exec [options] <container> <command>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["docker", "containers"],
+    "tags": ["docker", "exec", "shell", "container", "bash", "debug", "inspect"],
+    "aliases": ["get a shell in a container", "run a command in a container", "docker bash into container"],
+    "flags": [
+      { "name": "-i", "description": "Keep stdin open." },
+      { "name": "-t", "description": "Allocate a pseudo-TTY; combined with -i for an interactive shell." },
+      { "name": "-u", "description": "Run as a specific user inside the container." }
+    ],
+    "examples": [
+      { "command": "docker exec -it web bash", "explanation": "Opens an interactive bash shell inside the web container." },
+      { "command": "docker exec web ls /app", "explanation": "Lists a directory inside the container without opening a shell." }
+    ],
+    "risk": { "level": "moderate", "destructive": false, "requiresElevation": false, "sideEffects": "Runs arbitrary commands inside the container, which can modify its filesystem.", "reversibility": "Depends on what is run; container changes are lost when the container is recreated." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "docs.docker.com/reference/cli/docker/container/exec" },
+    "requires": { "tool": "docker" },
+    "relatedCommands": ["docker.ps.posix", "docker.logs.posix", "docker.run.posix"]
+  },
+  {
+    "id": "docker.images.posix",
+    "name": "docker images",
+    "title": "List local Docker images",
+    "description": "Shows the images stored locally with their repository, tag, and size. Useful for finding what is consuming disk space.",
+    "commandTemplate": "docker images [options]",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["docker", "containers"],
+    "tags": ["docker", "images", "list", "size", "disk", "registry"],
+    "aliases": ["list docker images", "show local images", "what images do i have"],
+    "flags": [
+      { "name": "-a", "description": "Include intermediate layer images." },
+      { "name": "-q", "description": "Print only image IDs." }
+    ],
+    "examples": [
+      { "command": "docker images", "explanation": "Lists all top-level local images with their sizes." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "docs.docker.com/reference/cli/docker/image/ls" },
+    "requires": { "tool": "docker" },
+    "relatedCommands": ["docker.ps.posix", "docker.run.posix"]
+  },
+  {
+    "id": "inspection.wc.posix",
+    "name": "wc",
+    "title": "Count lines, words, and bytes",
+    "description": "Counts lines, words, characters, and bytes in files. Most often used with -l to answer 'how many lines is this file?'.",
+    "commandTemplate": "wc [options] <file>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "git-bash", "fish"],
+    "category": ["inspection"],
+    "tags": ["wc", "count", "lines", "words", "bytes", "size"],
+    "aliases": ["count lines in a file", "how many lines", "count words"],
+    "flags": [
+      { "name": "-l", "description": "Print the line count only." },
+      { "name": "-w", "description": "Print the word count only." },
+      { "name": "-c", "description": "Print the byte count only." }
+    ],
+    "examples": [
+      { "command": "wc -l app.log", "explanation": "Prints how many lines the log file contains." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/wc.1.html" },
+    "relatedCommands": ["inspection.cat.posix", "inspection.grep.posix"]
+  },
+  {
+    "id": "inspection.less.posix",
+    "name": "less",
+    "title": "View a file one page at a time",
+    "description": "Opens a file in a scrollable pager without loading the whole file into memory, which makes it suitable for very large logs. Press q to quit and / to search.",
+    "commandTemplate": "less <file>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "git-bash", "fish"],
+    "category": ["inspection", "logs"],
+    "tags": ["less", "pager", "view", "read", "scroll", "file", "more"],
+    "aliases": ["read a large file", "page through a file", "open a log file"],
+    "flags": [
+      { "name": "-N", "description": "Show line numbers." },
+      { "name": "+F", "description": "Follow the file as it grows, like 'tail -f' but scrollable." },
+      { "name": "-S", "description": "Truncate long lines instead of wrapping them." }
+    ],
+    "examples": [
+      { "command": "less app.log", "explanation": "Opens the log in a scrollable pager." },
+      { "command": "less +F app.log", "explanation": "Follows new lines as they are written, with Ctrl+C to stop following." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/less.1.html" },
+    "relatedCommands": ["inspection.tail.posix", "inspection.cat.posix", "inspection.head.posix"]
+  },
+  {
+    "id": "process.top.posix",
+    "name": "top",
+    "title": "Monitor running processes and resource usage",
+    "description": "Shows a continuously updating view of processes ordered by CPU usage, along with overall memory and load. Press q to quit.",
+    "commandTemplate": "top [options]",
+    "platforms": ["linux", "macos"],
+    "shells": ["bash", "zsh", "fish"],
+    "category": ["process", "system", "inspection"],
+    "tags": ["top", "htop", "cpu", "memory", "monitor", "processes", "load", "performance"],
+    "aliases": ["what is using my cpu", "monitor system resources", "check memory usage"],
+    "flags": [
+      { "name": "-u", "description": "Show only processes owned by a given user." },
+      { "name": "-b", "description": "Batch mode, suitable for redirecting output to a file." },
+      { "name": "-n", "description": "Exit after the given number of refreshes." }
+    ],
+    "examples": [
+      { "command": "top", "explanation": "Opens the interactive process monitor." },
+      { "command": "top -b -n 1", "explanation": "Prints a single non-interactive snapshot." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only monitoring. Interactive keys can signal processes, so avoid stray keypresses.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/top.1.html" },
+    "relatedCommands": ["process.ps.posix", "process.kill.posix"]
+  },
+  {
+    "id": "system.uname.posix",
+    "name": "uname",
+    "title": "Show system and kernel information",
+    "description": "Prints the operating system name, kernel version, and machine architecture. Useful when you need to confirm which platform you are actually on.",
+    "commandTemplate": "uname [options]",
+    "platforms": ["linux", "macos"],
+    "shells": ["bash", "zsh", "git-bash", "fish"],
+    "category": ["system", "inspection"],
+    "tags": ["uname", "kernel", "os", "version", "architecture", "system info"],
+    "aliases": ["what os am i on", "check kernel version", "show system architecture"],
+    "flags": [
+      { "name": "-a", "description": "Print all available system information." },
+      { "name": "-r", "description": "Print the kernel release only." },
+      { "name": "-m", "description": "Print the machine hardware architecture." }
+    ],
+    "examples": [
+      { "command": "uname -a", "explanation": "Prints complete system and kernel information." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/uname.1.html" },
+    "relatedCommands": ["system.uptime.posix"]
+  },
+  {
+    "id": "system.uptime.posix",
+    "name": "uptime",
+    "title": "Show how long the system has been running",
+    "description": "Prints the current time, how long the machine has been up, the number of logged-in users, and the load averages over 1, 5, and 15 minutes.",
+    "commandTemplate": "uptime",
+    "platforms": ["linux", "macos"],
+    "shells": ["bash", "zsh", "git-bash", "fish"],
+    "category": ["system", "inspection"],
+    "tags": ["uptime", "load", "average", "boot", "running", "system"],
+    "aliases": ["how long has the server been up", "check load average", "when did the system reboot"],
+    "flags": [
+      { "name": "-p", "description": "Print the uptime in an easy-to-read format." },
+      { "name": "-s", "description": "Print the time the system booted." }
+    ],
+    "examples": [
+      { "command": "uptime", "explanation": "Shows uptime together with the load averages." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/uptime.1.html" },
+    "relatedCommands": ["system.uname.posix", "process.top.posix"]
+  },
+  {
+    "id": "system.which.posix",
+    "name": "which",
+    "title": "Find which executable a command resolves to",
+    "description": "Shows the full path of the executable that would run for a given command name. Essential when the wrong version of a tool is on PATH.",
+    "commandTemplate": "which <command>",
+    "platforms": ["linux", "macos"],
+    "shells": ["bash", "zsh", "git-bash", "fish"],
+    "category": ["system", "inspection", "environment"],
+    "tags": ["which", "where", "path", "executable", "binary", "resolve", "version"],
+    "aliases": ["where is this command installed", "which binary am i running", "find executable path"],
+    "flags": [
+      { "name": "-a", "description": "Print every matching executable on PATH, not just the first." }
+    ],
+    "examples": [
+      { "command": "which node", "explanation": "Prints the path of the node binary that would be executed." },
+      { "command": "which -a python3", "explanation": "Lists every python3 on PATH in resolution order." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/which.1.html" },
+    "relatedCommands": ["system.env.posix", "system.where.windows"]
+  },
+  {
+    "id": "system.where.windows",
+    "name": "where",
+    "title": "Locate an executable on Windows",
+    "description": "Searches PATH for a command and prints the full path of each match. The Windows counterpart to 'which'.",
+    "commandTemplate": "where <command>",
+    "platforms": ["windows"],
+    "shells": ["cmd", "powershell"],
+    "category": ["system", "inspection", "environment"],
+    "tags": ["where", "which", "path", "executable", "windows", "locate"],
+    "aliases": ["where is this program installed on windows", "which equivalent on windows", "find exe path"],
+    "flags": [
+      { "name": "/R", "description": "Search recursively starting from a given directory." }
+    ],
+    "examples": [
+      { "command": "where node", "explanation": "Prints the path of every node.exe found on PATH." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "learn.microsoft.com/windows-server/administration/windows-commands/where" },
+    "relatedCommands": ["system.which.posix"]
+  }
+]

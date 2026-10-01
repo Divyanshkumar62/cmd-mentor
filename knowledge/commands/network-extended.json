@@ -1,0 +1,191 @@
+[
+  {
+    "id": "network.dig.posix",
+    "name": "dig",
+    "title": "Query DNS records",
+    "description": "Performs DNS lookups and prints the full answer, including which nameserver replied. The standard tool for diagnosing 'the domain does not resolve' problems.",
+    "commandTemplate": "dig <domain> [record-type]",
+    "platforms": ["linux", "macos"],
+    "shells": ["bash", "zsh", "git-bash", "fish"],
+    "category": ["network"],
+    "tags": ["dig", "dns", "resolve", "nameserver", "record", "lookup", "domain"],
+    "aliases": ["look up dns records", "check dns resolution", "what ip does this domain point to"],
+    "flags": [
+      { "name": "+short", "description": "Print only the answer, with no metadata." },
+      { "name": "+trace", "description": "Trace delegation from the root nameservers down." },
+      { "name": "@server", "description": "Query a specific nameserver instead of the system resolver." }
+    ],
+    "examples": [
+      { "command": "dig example.com +short", "explanation": "Prints just the A records for the domain." },
+      { "command": "dig example.com MX", "explanation": "Looks up the mail exchanger records." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only network query.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/dig.1.html" },
+    "requires": { "tool": "dig" },
+    "relatedCommands": ["network.ping.posix", "network.nslookup.all"]
+  },
+  {
+    "id": "network.nslookup.all",
+    "name": "nslookup",
+    "title": "Look up DNS names and addresses",
+    "description": "Queries DNS for a domain or IP address. Less detailed than dig but available by default on Windows as well as most Unix systems.",
+    "commandTemplate": "nslookup <domain>",
+    "platforms": ["windows", "linux", "macos"],
+    "shells": ["powershell", "cmd", "bash", "zsh", "git-bash", "fish"],
+    "category": ["network"],
+    "tags": ["nslookup", "dns", "resolve", "lookup", "domain", "ip"],
+    "aliases": ["resolve a domain name", "dns lookup on windows", "find the ip of a website"],
+    "flags": [
+      { "name": "-type", "description": "Query a specific record type, e.g. -type=MX." }
+    ],
+    "examples": [
+      { "command": "nslookup example.com", "explanation": "Resolves the domain to its IP addresses." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only network query.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "learn.microsoft.com/windows-server/administration/windows-commands/nslookup" },
+    "relatedCommands": ["network.dig.posix", "network.ping.posix"]
+  },
+  {
+    "id": "network.traceroute.posix",
+    "name": "traceroute",
+    "title": "Trace the network path to a host",
+    "description": "Shows each router hop between you and a destination along with the latency at each step, which helps locate where a connection slows down or fails. On Windows the equivalent is 'tracert'.",
+    "commandTemplate": "traceroute <host>",
+    "platforms": ["linux", "macos"],
+    "shells": ["bash", "zsh", "fish"],
+    "category": ["network"],
+    "tags": ["traceroute", "tracert", "hops", "latency", "route", "path", "network"],
+    "aliases": ["trace the route to a server", "find where the connection is slow", "show network hops"],
+    "flags": [
+      { "name": "-n", "description": "Show numeric addresses without reverse DNS lookups, which is faster." },
+      { "name": "-m", "description": "Set the maximum number of hops to probe." }
+    ],
+    "examples": [
+      { "command": "traceroute example.com", "explanation": "Shows every hop on the path to the host." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Sends probe packets; read-only with respect to local state.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man8/traceroute.8.html" },
+    "requires": { "tool": "traceroute" },
+    "relatedCommands": ["network.ping.posix", "network.dig.posix"]
+  },
+  {
+    "id": "network.ip.linux",
+    "name": "ip",
+    "title": "Show and configure network interfaces",
+    "description": "The modern Linux tool for inspecting and configuring addresses, links, and routes. It replaces the deprecated ifconfig and route commands.",
+    "commandTemplate": "ip <object> <command>",
+    "platforms": ["linux"],
+    "shells": ["bash", "zsh", "fish"],
+    "category": ["network", "system"],
+    "tags": ["ip", "ifconfig", "interface", "address", "route", "network", "nic"],
+    "aliases": ["show my ip address", "list network interfaces", "check routing table"],
+    "flags": [
+      { "name": "-br", "description": "Brief, column-aligned output." },
+      { "name": "-4", "description": "Restrict output to IPv4." }
+    ],
+    "examples": [
+      { "command": "ip addr show", "explanation": "Lists every interface with its assigned addresses." },
+      { "command": "ip route show", "explanation": "Displays the kernel routing table." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "The 'show' subcommands are read-only. Subcommands such as 'ip addr add' modify network configuration and require root.", "reversibility": "Configuration changes are reversible but can drop a remote session." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man8/ip.8.html" },
+    "relatedCommands": ["network.ipconfig.windows", "network.ping.posix"]
+  },
+  {
+    "id": "network.ipconfig.windows",
+    "name": "ipconfig",
+    "title": "Show Windows network configuration",
+    "description": "Displays the IP address, subnet mask, and gateway for each Windows network adapter, and can renew DHCP leases or flush the DNS cache.",
+    "commandTemplate": "ipconfig [options]",
+    "platforms": ["windows"],
+    "shells": ["cmd", "powershell"],
+    "category": ["network", "system"],
+    "tags": ["ipconfig", "ip address", "windows", "adapter", "dhcp", "dns", "network"],
+    "aliases": ["what is my ip on windows", "show network adapters", "flush dns cache"],
+    "flags": [
+      { "name": "/all", "description": "Show full configuration including MAC addresses and DNS servers." },
+      { "name": "/flushdns", "description": "Clear the local DNS resolver cache." },
+      { "name": "/renew", "description": "Request a new DHCP lease." }
+    ],
+    "examples": [
+      { "command": "ipconfig /all", "explanation": "Shows the complete configuration for every adapter." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "/all is read-only. /renew and /flushdns change network state and may briefly interrupt connectivity.", "reversibility": "Changes are transient and re-established automatically." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "learn.microsoft.com/windows-server/administration/windows-commands/ipconfig" },
+    "relatedCommands": ["network.ip.linux", "network.powershell.testnetconnection"]
+  },
+  {
+    "id": "network.ssh.posix",
+    "name": "ssh",
+    "title": "Connect to a remote host over SSH",
+    "description": "Opens an encrypted shell session on a remote machine. Anything you then run executes on that remote host, not locally.",
+    "commandTemplate": "ssh [user@]<host>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["network"],
+    "tags": ["ssh", "remote", "login", "shell", "server", "connect"],
+    "aliases": ["connect to a server", "log into a remote machine", "ssh into a box"],
+    "flags": [
+      { "name": "-p", "description": "Connect to a non-default port." },
+      { "name": "-i", "description": "Use a specific private key file." },
+      { "name": "-L", "description": "Forward a local port to a port on the remote side." }
+    ],
+    "examples": [
+      { "command": "ssh deploy@example.com", "explanation": "Opens a shell on the remote host as the deploy user." },
+      { "command": "ssh -i ~/.ssh/id_ed25519 -p 2222 deploy@example.com", "explanation": "Connects using a specific key and port." }
+    ],
+    "risk": { "level": "moderate", "destructive": false, "requiresElevation": false, "sideEffects": "Opens an interactive session on a remote system; subsequent commands affect that host.", "reversibility": "Ending the session is reversible, but actions taken on the remote host are not." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/ssh.1.html" },
+    "requires": { "tool": "ssh" },
+    "relatedCommands": ["network.scp.posix"]
+  },
+  {
+    "id": "network.scp.posix",
+    "name": "scp",
+    "title": "Copy files over SSH",
+    "description": "Copies files between hosts over an SSH connection. It silently overwrites the destination if a file with that name already exists.",
+    "commandTemplate": "scp <source> <destination>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["network", "filesystem"],
+    "tags": ["scp", "copy", "transfer", "remote", "ssh", "upload", "download"],
+    "aliases": ["copy a file to a server", "download a file from a server", "transfer files over ssh"],
+    "flags": [
+      { "name": "-r", "description": "Copy directories recursively." },
+      { "name": "-P", "description": "Connect to a non-default SSH port (uppercase P)." }
+    ],
+    "examples": [
+      { "command": "scp report.csv deploy@example.com:/tmp/", "explanation": "Uploads a local file to the remote /tmp directory." },
+      { "command": "scp -r deploy@example.com:/var/log/app ./logs", "explanation": "Downloads a remote directory tree." }
+    ],
+    "risk": { "level": "moderate", "destructive": true, "requiresElevation": false, "sideEffects": "Writes files on the destination, overwriting same-named files without prompting.", "reversibility": "Overwritten files are not recoverable." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/scp.1.html" },
+    "requires": { "tool": "scp" },
+    "relatedCommands": ["network.ssh.posix", "filesystem.cp.posix"]
+  },
+  {
+    "id": "network.wget.posix",
+    "name": "wget",
+    "title": "Download files from the web",
+    "description": "Downloads files over HTTP, HTTPS, and FTP. Unlike curl it writes to a file by default and can resume interrupted transfers.",
+    "commandTemplate": "wget <url>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "git-bash", "fish"],
+    "category": ["network"],
+    "tags": ["wget", "download", "fetch", "http", "file", "url"],
+    "aliases": ["download a file", "fetch a url", "get a file from the internet"],
+    "flags": [
+      { "name": "-O", "description": "Write output to the given filename." },
+      { "name": "-c", "description": "Continue a partially downloaded file." },
+      { "name": "-q", "description": "Quiet mode with no progress output." }
+    ],
+    "examples": [
+      { "command": "wget https://example.com/archive.tar.gz", "explanation": "Downloads the file into the current directory." },
+      { "command": "wget -c https://example.com/large.iso", "explanation": "Resumes an interrupted download." }
+    ],
+    "risk": { "level": "moderate", "destructive": false, "requiresElevation": false, "sideEffects": "Writes downloaded files to disk and makes outbound network requests.", "reversibility": "Reversible by deleting the downloaded file." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "gnu.org/software/wget/manual" },
+    "requires": { "tool": "wget" },
+    "relatedCommands": ["network.curl.posix"]
+  }
+]

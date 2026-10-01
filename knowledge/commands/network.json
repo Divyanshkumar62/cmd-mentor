@@ -1,0 +1,200 @@
+[
+  {
+    "id": "network.curl.posix",
+    "name": "curl",
+    "title": "Transfer data from or to a server",
+    "description": "Tool to transfer data from or to a server using supported protocols (HTTP, HTTPS, FTP, etc.).",
+    "commandTemplate": "curl [options] <url>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "network"
+    ],
+    "tags": [
+      "curl",
+      "http",
+      "api",
+      "request",
+      "download",
+      "get"
+    ],
+    "aliases": [
+      "make http request",
+      "test api endpoint",
+      "download file curl",
+      "curl url"
+    ],
+    "flags": [
+      {
+        "name": "-X",
+        "shorthand": "--request",
+        "description": "Specifies a custom request method to use when communicating with the HTTP server."
+      },
+      {
+        "name": "-H",
+        "shorthand": "--header",
+        "description": "Extra header to include in the request when sending HTTP to a server."
+      },
+      {
+        "name": "-d",
+        "shorthand": "--data",
+        "description": "Sends the specified data in an HTTP POST request."
+      },
+      {
+        "name": "-i",
+        "shorthand": "--include",
+        "description": "Include the HTTP response headers in the output."
+      },
+      {
+        "name": "-s",
+        "shorthand": "--silent",
+        "description": "Silent or quiet mode. Don't show progress meter or error messages."
+      }
+    ],
+    "examples": [
+      {
+        "command": "curl -i https://api.github.com/zen",
+        "explanation": "Makes a GET request and prints HTTP headers and response."
+      },
+      {
+        "command": "curl -X POST https://httpbin.org/post -H \"Content-Type: application/json\" -d '{\"key\":\"value\"}'",
+        "explanation": "Sends a JSON POST payload to an API endpoint."
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Performs network I/O; sends request over network.",
+      "reversibility": "Depends on server-side state."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "cURL Manual"
+    }
+  },
+  {
+    "id": "network.ping.posix",
+    "name": "ping",
+    "title": "Send ICMP ECHO_REQUEST to network hosts",
+    "description": "Uses ICMP protocol's mandatory ECHO_REQUEST datagram to elicit an ECHO_RESPONSE from a host or gateway.",
+    "commandTemplate": "ping [options] <destination>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "network"
+    ],
+    "tags": [
+      "ping",
+      "icmp",
+      "connectivity",
+      "latency",
+      "host check"
+    ],
+    "aliases": [
+      "check host reachable",
+      "test network connection",
+      "ping server"
+    ],
+    "flags": [
+      {
+        "name": "-c",
+        "description": "Stop after sending count ECHO_REQUEST packets (POSIX)."
+      },
+      {
+        "name": "-n",
+        "description": "Number of echo requests to send (Windows)."
+      }
+    ],
+    "examples": [
+      {
+        "command": "ping 8.8.8.8",
+        "explanation": "Pings Google Public DNS to verify external network connectivity."
+      },
+      {
+        "command": "ping -c 4 localhost",
+        "explanation": "Sends 4 ICMP packets to localhost and prints round-trip statistics."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Transmits ICMP packets across network.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "POSIX / Windows TCP/IP Utilities"
+    }
+  },
+  {
+    "id": "network.powershell.testnetconnection",
+    "name": "Test-NetConnection",
+    "title": "Diagnostic tool for network connections (PowerShell)",
+    "description": "Displays diagnostic information for a connection including TCP port ping, traceroute, and DNS resolution.",
+    "commandTemplate": "Test-NetConnection -ComputerName <host> -Port <port>",
+    "platforms": [
+      "windows"
+    ],
+    "shells": [
+      "powershell"
+    ],
+    "category": [
+      "network"
+    ],
+    "tags": [
+      "network",
+      "test-netconnection",
+      "port ping",
+      "powershell",
+      "tcp"
+    ],
+    "aliases": [
+      "test tcp port in powershell",
+      "test network connection windows",
+      "ping port"
+    ],
+    "flags": [],
+    "examples": [
+      {
+        "command": "Test-NetConnection -ComputerName github.com -Port 443",
+        "explanation": "Tests whether outbound TCP connection to github.com on port 443 succeeds."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Performs TCP connection handshake test.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Microsoft Learn PowerShell"
+    }
+  }
+]

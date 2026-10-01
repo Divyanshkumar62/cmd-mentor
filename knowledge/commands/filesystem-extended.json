@@ -1,0 +1,208 @@
+[
+  {
+    "id": "filesystem.rmdir.posix",
+    "name": "rmdir",
+    "title": "Remove an empty directory",
+    "description": "Deletes a directory only if it is already empty. This refusal to delete non-empty directories is the point - it is the safe counterpart to 'rm -r'.",
+    "commandTemplate": "rmdir <directory>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "git-bash", "fish"],
+    "category": ["filesystem"],
+    "tags": ["rmdir", "remove", "delete", "directory", "folder", "empty"],
+    "aliases": ["delete an empty folder", "remove a directory", "safely delete a folder"],
+    "flags": [
+      { "name": "-p", "description": "Remove the directory and any parent directories that become empty." },
+      { "name": "--ignore-fail-on-non-empty", "description": "Do not report an error when a directory is not empty." }
+    ],
+    "examples": [
+      { "command": "rmdir old_folder", "explanation": "Deletes old_folder if it contains no files." },
+      { "command": "rmdir -p a/b/c", "explanation": "Removes c, then b, then a, stopping at the first non-empty one." }
+    ],
+    "risk": { "level": "moderate", "destructive": true, "requiresElevation": false, "sideEffects": "Removes a directory entry from the filesystem.", "reversibility": "Not recoverable through the shell, but only empty directories are affected." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/rmdir.1.html" },
+    "relatedCommands": ["filesystem.rm.posix", "filesystem.mkdir.posix"]
+  },
+  {
+    "id": "filesystem.dir.cmd",
+    "name": "dir",
+    "title": "List directory contents on Windows",
+    "description": "Lists files and subdirectories in a directory. This is the Windows Command Prompt equivalent of 'ls' and is a CMD built-in rather than a standalone executable.",
+    "commandTemplate": "dir [path]",
+    "platforms": ["windows"],
+    "shells": ["cmd"],
+    "category": ["filesystem", "navigation"],
+    "tags": ["dir", "list", "files", "directory", "windows", "cmd"],
+    "aliases": ["list files on windows", "show directory contents in cmd", "ls equivalent for cmd"],
+    "flags": [
+      { "name": "/a", "description": "Include hidden and system files." },
+      { "name": "/s", "description": "Recurse into all subdirectories." },
+      { "name": "/b", "description": "Bare format - names only, no headings or summary." }
+    ],
+    "examples": [
+      { "command": "dir", "explanation": "Lists the contents of the current directory." },
+      { "command": "dir /a", "explanation": "Lists all entries including hidden and system files." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only listing.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "learn.microsoft.com/windows-server/administration/windows-commands/dir" },
+    "relatedCommands": ["filesystem.ls.posix", "filesystem.getchilditem.powershell"]
+  },
+  {
+    "id": "filesystem.getchilditem.powershell",
+    "name": "Get-ChildItem",
+    "title": "List directory contents in PowerShell",
+    "description": "Returns the items in a location as objects rather than text, so results can be filtered and sorted with the pipeline. Aliased to 'ls', 'dir', and 'gci'.",
+    "commandTemplate": "Get-ChildItem [-Path <path>]",
+    "platforms": ["windows", "linux", "macos"],
+    "shells": ["powershell"],
+    "category": ["filesystem", "navigation"],
+    "tags": ["get-childitem", "gci", "list", "files", "directory", "powershell"],
+    "aliases": ["list files in powershell", "show folder contents powershell", "ls for powershell"],
+    "flags": [
+      { "name": "-Recurse", "description": "Include items in all subdirectories." },
+      { "name": "-Force", "description": "Include hidden and system items." },
+      { "name": "-Filter", "description": "Filter results by a provider-level wildcard pattern, which is faster than -Include." }
+    ],
+    "examples": [
+      { "command": "Get-ChildItem", "explanation": "Lists items in the current directory." },
+      { "command": "Get-ChildItem -Recurse -Filter *.log", "explanation": "Finds every .log file beneath the current directory." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only listing.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "learn.microsoft.com/powershell/module/microsoft.powershell.management/get-childitem" },
+    "relatedCommands": ["filesystem.ls.posix", "filesystem.dir.cmd"]
+  },
+  {
+    "id": "filesystem.copyitem.powershell",
+    "name": "Copy-Item",
+    "title": "Copy files or directories in PowerShell",
+    "description": "Copies an item from one location to another. Copying a directory tree requires -Recurse; without it only the directory itself is copied.",
+    "commandTemplate": "Copy-Item -Path <source> -Destination <target>",
+    "platforms": ["windows", "linux", "macos"],
+    "shells": ["powershell"],
+    "category": ["filesystem"],
+    "tags": ["copy-item", "copy", "duplicate", "file", "powershell", "cp"],
+    "aliases": ["copy a file in powershell", "duplicate a folder powershell", "cp for powershell"],
+    "flags": [
+      { "name": "-Recurse", "description": "Copy a directory and everything inside it." },
+      { "name": "-Force", "description": "Overwrite existing read-only or hidden destination files." }
+    ],
+    "examples": [
+      { "command": "Copy-Item -Path report.txt -Destination backup.txt", "explanation": "Copies a single file to a new name." },
+      { "command": "Copy-Item -Path .\\src -Destination .\\src_backup -Recurse", "explanation": "Copies an entire directory tree." }
+    ],
+    "risk": { "level": "moderate", "destructive": false, "requiresElevation": false, "sideEffects": "Writes new files and can overwrite the destination when -Force is used.", "reversibility": "Reversible by deleting the copy, unless an existing file was overwritten." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "learn.microsoft.com/powershell/module/microsoft.powershell.management/copy-item" },
+    "relatedCommands": ["filesystem.cp.posix", "filesystem.removeitem.powershell"]
+  },
+  {
+    "id": "filesystem.du.posix",
+    "name": "du",
+    "title": "Show disk usage of files and directories",
+    "description": "Reports how much disk space directories consume. Useful for tracking down what is filling a disk.",
+    "commandTemplate": "du [options] [path]",
+    "platforms": ["linux", "macos"],
+    "shells": ["bash", "zsh", "git-bash", "fish"],
+    "category": ["filesystem", "inspection"],
+    "tags": ["du", "disk", "usage", "size", "space", "large files"],
+    "aliases": ["check folder size", "what is using disk space", "how big is this directory"],
+    "flags": [
+      { "name": "-h", "description": "Print sizes in human-readable units such as K, M, and G." },
+      { "name": "-s", "description": "Show only a total for each argument instead of every subdirectory." },
+      { "name": "-d", "description": "Limit how many directory levels deep to report." }
+    ],
+    "examples": [
+      { "command": "du -sh .", "explanation": "Prints the total size of the current directory in human-readable form." },
+      { "command": "du -h -d 1", "explanation": "Shows the size of each immediate subdirectory." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only; may be slow on very large trees.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/du.1.html" },
+    "relatedCommands": ["filesystem.df.posix", "filesystem.find.posix"]
+  },
+  {
+    "id": "filesystem.df.posix",
+    "name": "df",
+    "title": "Show free disk space on mounted filesystems",
+    "description": "Reports total, used, and available space for each mounted filesystem. Answers 'is the disk full?' where 'du' answers 'what is filling it?'.",
+    "commandTemplate": "df [options]",
+    "platforms": ["linux", "macos"],
+    "shells": ["bash", "zsh", "git-bash", "fish"],
+    "category": ["filesystem", "system", "inspection"],
+    "tags": ["df", "disk", "free", "space", "filesystem", "mount", "full"],
+    "aliases": ["how much disk space is left", "check free space", "is the disk full"],
+    "flags": [
+      { "name": "-h", "description": "Print sizes in human-readable units." },
+      { "name": "-i", "description": "Report inode usage instead of block usage." },
+      { "name": "-T", "description": "Include the filesystem type in the output." }
+    ],
+    "examples": [
+      { "command": "df -h", "explanation": "Shows free space per filesystem in human-readable units." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/df.1.html" },
+    "relatedCommands": ["filesystem.du.posix"]
+  },
+  {
+    "id": "filesystem.ln.posix",
+    "name": "ln",
+    "title": "Create links between files",
+    "description": "Creates a hard link, or with -s a symbolic link that points at another path. Symbolic links are the common case and can span filesystems.",
+    "commandTemplate": "ln -s <target> <link-name>",
+    "platforms": ["linux", "macos"],
+    "shells": ["bash", "zsh", "git-bash", "fish"],
+    "category": ["filesystem"],
+    "tags": ["ln", "link", "symlink", "symbolic", "shortcut", "alias"],
+    "aliases": ["create a symlink", "make a symbolic link", "link a file"],
+    "flags": [
+      { "name": "-s", "description": "Create a symbolic link rather than a hard link." },
+      { "name": "-f", "description": "Remove an existing destination file before linking." },
+      { "name": "-n", "description": "Treat an existing symlink to a directory as a file, not as the directory." }
+    ],
+    "examples": [
+      { "command": "ln -s /opt/app/current /usr/local/bin/app", "explanation": "Creates a symbolic link named app pointing at the target path." }
+    ],
+    "risk": { "level": "moderate", "destructive": false, "requiresElevation": false, "sideEffects": "Creates a filesystem entry; with -f it can replace an existing file.", "reversibility": "Reversible by removing the link, which does not affect the target." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/ln.1.html" },
+    "relatedCommands": ["filesystem.ls.posix"]
+  },
+  {
+    "id": "filesystem.chown.posix",
+    "name": "chown",
+    "title": "Change file owner and group",
+    "description": "Changes which user and group own a file or directory. Changing ownership away from yourself can lock you out of the file, and it usually requires root.",
+    "commandTemplate": "chown <owner>[:<group>] <path>",
+    "platforms": ["linux", "macos"],
+    "shells": ["bash", "zsh", "fish"],
+    "category": ["filesystem", "permissions"],
+    "tags": ["chown", "owner", "ownership", "group", "permissions", "user"],
+    "aliases": ["change file owner", "change ownership of a folder", "fix file permissions owner"],
+    "flags": [
+      { "name": "-R", "description": "Apply the change recursively to a directory tree." },
+      { "name": "--from", "description": "Only change ownership when the current owner matches." }
+    ],
+    "examples": [
+      { "command": "chown deploy:www-data /var/www/site", "explanation": "Makes deploy the owner and www-data the group for that directory." }
+    ],
+    "risk": { "level": "high", "destructive": false, "requiresElevation": true, "sideEffects": "Alters access control; a recursive change on a system path can break running services.", "reversibility": "Reversible only if you recorded the previous ownership." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/chown.1.html" },
+    "relatedCommands": ["filesystem.chmod.posix"]
+  },
+  {
+    "id": "navigation.pushd.posix",
+    "name": "pushd",
+    "title": "Change directory and remember the previous one",
+    "description": "Pushes the current directory onto a stack and changes to a new one. 'popd' returns to where you were, which makes round trips easier than repeated 'cd'.",
+    "commandTemplate": "pushd <directory>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd"],
+    "category": ["navigation"],
+    "tags": ["pushd", "popd", "directory", "stack", "navigate", "cd"],
+    "aliases": ["change directory and come back", "remember current directory", "directory stack"],
+    "flags": [],
+    "examples": [
+      { "command": "pushd /var/log", "explanation": "Switches to /var/log while remembering the current directory." },
+      { "command": "popd", "explanation": "Returns to the directory saved by the last pushd." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Changes the shell's working directory only.", "reversibility": "Reversible with popd." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "gnu.org/software/bash/manual" },
+    "relatedCommands": ["navigation.cd.posix", "filesystem.pwd.posix"]
+  }
+]

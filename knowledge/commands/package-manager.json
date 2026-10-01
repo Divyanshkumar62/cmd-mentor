@@ -1,0 +1,198 @@
+[
+  {
+    "id": "package.npm.install",
+    "name": "npm install",
+    "title": "Install package dependencies",
+    "description": "Installs dependencies specified in package.json or installs a specific package from the npm registry.",
+    "commandTemplate": "npm install [package_name] [options]",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "package-manager",
+      "javascript"
+    ],
+    "tags": [
+      "npm",
+      "install",
+      "node",
+      "dependencies",
+      "add package"
+    ],
+    "aliases": [
+      "install npm packages",
+      "npm i",
+      "add npm dependency",
+      "install dependencies"
+    ],
+    "flags": [
+      {
+        "name": "-D",
+        "shorthand": "--save-dev",
+        "description": "Save package to devDependencies."
+      },
+      {
+        "name": "-g",
+        "shorthand": "--global",
+        "description": "Install package globally across the system."
+      },
+      {
+        "name": "--frozen-lockfile",
+        "description": "Don't generate a lockfile and fail if an update is needed (npm ci behavior)."
+      }
+    ],
+    "examples": [
+      {
+        "command": "npm install",
+        "explanation": "Installs all dependencies listed in package.json into node_modules."
+      },
+      {
+        "command": "npm install -D typescript vitest",
+        "explanation": "Installs typescript and vitest as development dependencies."
+      }
+    ],
+    "risk": {
+      "level": "moderate",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Downloads tarballs from registry, writes files to node_modules, runs lifecycle scripts.",
+      "reversibility": "Can uninstall packages with npm uninstall."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "npm CLI Documentation"
+    },
+    "requires": {
+      "tool": "npm"
+    }
+  },
+  {
+    "id": "package.npm.run",
+    "name": "npm run",
+    "title": "Run arbitrary package scripts",
+    "description": "Runs a script defined in the 'scripts' object of package.json.",
+    "commandTemplate": "npm run <script-name>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "package-manager",
+      "javascript"
+    ],
+    "tags": [
+      "npm",
+      "script",
+      "build",
+      "test",
+      "start",
+      "run"
+    ],
+    "aliases": [
+      "run npm script",
+      "execute package script",
+      "npm test",
+      "npm build"
+    ],
+    "flags": [],
+    "examples": [
+      {
+        "command": "npm run build",
+        "explanation": "Executes the 'build' script defined in package.json."
+      },
+      {
+        "command": "npm test",
+        "explanation": "Shortcut for 'npm run test'."
+      }
+    ],
+    "risk": {
+      "level": "moderate",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Executes project-defined command scripts.",
+      "reversibility": "Depends on script contents."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "npm CLI Documentation"
+    },
+    "requires": {
+      "tool": "npm"
+    }
+  },
+  {
+    "id": "package.npx.execute",
+    "name": "npx",
+    "title": "Execute an npm package binary directly",
+    "description": "Runs an arbitrary command from an npm package (locally installed or fetched remotely) without global installation.",
+    "commandTemplate": "npx <package> [args...]",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "package-manager",
+      "javascript"
+    ],
+    "tags": [
+      "npx",
+      "execute",
+      "run binary",
+      "cli tool"
+    ],
+    "aliases": [
+      "run npm package without install",
+      "execute npx command",
+      "npx"
+    ],
+    "flags": [],
+    "examples": [
+      {
+        "command": "npx vitest run",
+        "explanation": "Runs local project vitest binary directly."
+      }
+    ],
+    "risk": {
+      "level": "moderate",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Downloads and executes JavaScript binary.",
+      "reversibility": "Depends on executed tool."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "npm Documentation"
+    },
+    "requires": {
+      "tool": "npx"
+    }
+  }
+]

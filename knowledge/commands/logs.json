@@ -1,0 +1,100 @@
+[
+  {
+    "id": "logs.journalctl.linux",
+    "name": "journalctl",
+    "title": "Query the systemd journal",
+    "description": "Reads logs collected by systemd-journald. This is the primary way to inspect service logs on modern Linux distributions.",
+    "commandTemplate": "journalctl [options]",
+    "platforms": ["linux"],
+    "shells": ["bash", "zsh", "fish"],
+    "category": ["logs", "system"],
+    "tags": ["journalctl", "logs", "systemd", "journal", "service logs", "errors"],
+    "aliases": ["view system logs", "check service logs", "read the journal", "why did my service fail"],
+    "flags": [
+      { "name": "-u", "description": "Show entries for one systemd unit only." },
+      { "name": "-f", "description": "Follow the journal, printing new entries as they arrive." },
+      { "name": "-n", "description": "Show only the last N entries." },
+      { "name": "--since", "description": "Show entries newer than the given time, e.g. '1 hour ago'." },
+      { "name": "-p", "description": "Filter by priority, e.g. 'err' for errors and worse." }
+    ],
+    "examples": [
+      { "command": "journalctl -u nginx -n 100", "explanation": "Shows the last 100 log lines for the nginx service." },
+      { "command": "journalctl -f", "explanation": "Follows all new journal entries live." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only. Some entries are only visible to root or members of the systemd-journal group.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/journalctl.1.html" },
+    "requires": { "tool": "systemd" },
+    "relatedCommands": ["service.systemctl.status", "inspection.tail.posix", "logs.dmesg.linux"]
+  },
+  {
+    "id": "logs.dmesg.linux",
+    "name": "dmesg",
+    "title": "Print kernel ring buffer messages",
+    "description": "Displays messages from the kernel ring buffer - driver, hardware, and boot diagnostics. Useful when a device, disk, or network interface misbehaves.",
+    "commandTemplate": "dmesg [options]",
+    "platforms": ["linux"],
+    "shells": ["bash", "zsh", "fish"],
+    "category": ["logs", "system"],
+    "tags": ["dmesg", "kernel", "boot", "hardware", "driver", "logs"],
+    "aliases": ["view kernel messages", "check hardware errors", "boot log"],
+    "flags": [
+      { "name": "-H", "description": "Human-readable output with a pager and relative timestamps." },
+      { "name": "-T", "description": "Print human-readable wall-clock timestamps." },
+      { "name": "-l", "description": "Restrict output to the given log levels, e.g. 'err,warn'." }
+    ],
+    "examples": [
+      { "command": "dmesg -T", "explanation": "Shows kernel messages with readable timestamps." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only. Many distributions restrict access to root.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "man7.org/linux/man-pages/man1/dmesg.1.html" },
+    "relatedCommands": ["logs.journalctl.linux"]
+  },
+  {
+    "id": "logs.geteventlog.powershell",
+    "name": "Get-WinEvent",
+    "title": "Read Windows event logs",
+    "description": "Queries Windows event logs and event tracing channels. It replaces the older Get-EventLog cmdlet and can read modern channels that Get-EventLog cannot.",
+    "commandTemplate": "Get-WinEvent -LogName <log>",
+    "platforms": ["windows"],
+    "shells": ["powershell"],
+    "category": ["logs", "system"],
+    "tags": ["get-winevent", "event log", "windows", "logs", "eventvwr", "errors"],
+    "aliases": ["view windows event log", "check system errors on windows", "read application log"],
+    "flags": [
+      { "name": "-LogName", "description": "The event log to read, such as System or Application." },
+      { "name": "-MaxEvents", "description": "Limit how many of the most recent events to return." },
+      { "name": "-FilterHashtable", "description": "Server-side filter by level, provider, or time; far faster than filtering in the pipeline." }
+    ],
+    "examples": [
+      { "command": "Get-WinEvent -LogName System -MaxEvents 50", "explanation": "Returns the 50 most recent System event log entries." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only. Some logs, such as Security, require administrator rights.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "learn.microsoft.com/powershell/module/microsoft.powershell.diagnostics/get-winevent" },
+    "relatedCommands": ["service.powershell.getservice", "process.powershell.getprocess"]
+  },
+  {
+    "id": "logs.docker.compose",
+    "name": "docker compose logs",
+    "title": "View logs from Compose services",
+    "description": "Shows the combined log output of the services defined in a Compose file, with each line prefixed by its service name.",
+    "commandTemplate": "docker compose logs [service]",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["logs", "docker", "containers"],
+    "tags": ["docker", "compose", "logs", "containers", "debug"],
+    "aliases": ["view compose logs", "check container logs", "debug docker compose"],
+    "flags": [
+      { "name": "-f", "description": "Follow log output as new lines are written." },
+      { "name": "--tail", "description": "Show only the last N lines per service." },
+      { "name": "-t", "description": "Prefix each line with a timestamp." }
+    ],
+    "examples": [
+      { "command": "docker compose logs -f api", "explanation": "Follows the logs of the api service." },
+      { "command": "docker compose logs --tail 100", "explanation": "Shows the last 100 lines from every service." }
+    ],
+    "risk": { "level": "informational", "destructive": false, "requiresElevation": false, "sideEffects": "Read-only.", "reversibility": "N/A" },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "docs.docker.com/reference/cli/docker/compose/logs" },
+    "requires": { "tool": "docker" },
+    "relatedCommands": ["docker.logs.posix", "docker.compose.posix"]
+  }
+]

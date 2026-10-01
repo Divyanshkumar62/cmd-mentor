@@ -1,0 +1,104 @@
+[
+  {
+    "id": "system.env.posix",
+    "name": "export",
+    "title": "Set an environment variable (POSIX)",
+    "description": "Sets an export attribute for shell variables, marking them for automatic export to the environment of subsequently executed commands.",
+    "commandTemplate": "export <VAR>=<value>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "git-bash"
+    ],
+    "category": [
+      "system",
+      "environment"
+    ],
+    "tags": [
+      "env",
+      "variable",
+      "export",
+      "environment variable",
+      "set env"
+    ],
+    "aliases": [
+      "set environment variable",
+      "set env var",
+      "export env variable"
+    ],
+    "flags": [],
+    "examples": [
+      {
+        "command": "export NODE_ENV=production",
+        "explanation": "Sets NODE_ENV to production for current shell and child processes."
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Modifies current shell session memory.",
+      "reversibility": "Reversible using unset VAR or closing shell."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Bash Reference Manual"
+    }
+  },
+  {
+    "id": "system.env.powershell",
+    "name": "$env:VAR",
+    "title": "Set an environment variable (PowerShell)",
+    "description": "Sets or reads environment variables in the PowerShell environment drive.",
+    "commandTemplate": "$env:<VAR> = \"<value>\"",
+    "platforms": [
+      "windows",
+      "linux",
+      "macos"
+    ],
+    "shells": [
+      "powershell"
+    ],
+    "category": [
+      "system",
+      "environment"
+    ],
+    "tags": [
+      "env",
+      "variable",
+      "powershell",
+      "set env",
+      "environment"
+    ],
+    "aliases": [
+      "set env var in powershell",
+      "powershell environment variable"
+    ],
+    "flags": [],
+    "examples": [
+      {
+        "command": "$env:NODE_ENV = \"production\"",
+        "explanation": "Sets NODE_ENV to production for current PowerShell session."
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Modifies current PowerShell process environment.",
+      "reversibility": "Reversible with Remove-Item env:VAR."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Microsoft Learn PowerShell"
+    },
+    "requiresShell": true
+  }
+]

@@ -1,0 +1,144 @@
+[
+  {
+    "id": "archive.tar.posix",
+    "name": "tar",
+    "title": "Manipulate tape archives (.tar, .tar.gz)",
+    "description": "Utility for storing multiple files together into a single file and for manipulating such archives.",
+    "commandTemplate": "tar [options] <archive-file> [files...]",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "archive",
+      "filesystem"
+    ],
+    "tags": [
+      "tar",
+      "compress",
+      "extract",
+      "archive",
+      "tar.gz",
+      "unzip"
+    ],
+    "aliases": [
+      "extract tar.gz",
+      "compress folder to tar",
+      "unzip tar file",
+      "create tar archive"
+    ],
+    "flags": [
+      {
+        "name": "-c",
+        "shorthand": "--create",
+        "description": "Create a new archive."
+      },
+      {
+        "name": "-x",
+        "shorthand": "--extract",
+        "description": "Extract files from an archive."
+      },
+      {
+        "name": "-z",
+        "shorthand": "--gzip",
+        "description": "Filter the archive through gzip."
+      },
+      {
+        "name": "-f",
+        "shorthand": "--file",
+        "description": "Use archive file or device ARCHIVE."
+      },
+      {
+        "name": "-v",
+        "shorthand": "--verbose",
+        "description": "Verbosely list files processed."
+      }
+    ],
+    "examples": [
+      {
+        "command": "tar -czvf archive.tar.gz ./my_folder",
+        "explanation": "Creates a gzipped tar archive of my_folder."
+      },
+      {
+        "command": "tar -xzvf archive.tar.gz",
+        "explanation": "Extracts the contents of archive.tar.gz into current directory."
+      }
+    ],
+    "risk": {
+      "level": "moderate",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Creates archive file or unpacks multiple files into the directory.",
+      "reversibility": "Extracted files can be deleted manually."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "GNU tar manual"
+    }
+  },
+  {
+    "id": "archive.unzip.posix",
+    "name": "unzip",
+    "title": "Extract compressed files in a ZIP archive",
+    "description": "Lists, tests, or extracts files from a ZIP archive, commonly found on MS-DOS systems.",
+    "commandTemplate": "unzip [options] <archive.zip>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "git-bash"
+    ],
+    "category": [
+      "archive",
+      "filesystem"
+    ],
+    "tags": [
+      "unzip",
+      "extract zip",
+      "decompress",
+      "zip file"
+    ],
+    "aliases": [
+      "unzip file",
+      "extract zip archive",
+      "uncompress zip"
+    ],
+    "flags": [
+      {
+        "name": "-d",
+        "description": "An optional directory to which to extract files."
+      }
+    ],
+    "examples": [
+      {
+        "command": "unzip package.zip -d ./extracted",
+        "explanation": "Unpacks package.zip into the ./extracted directory."
+      }
+    ],
+    "risk": {
+      "level": "moderate",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Extracts files to the filesystem.",
+      "reversibility": "Extracted files can be removed."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Info-ZIP Documentation"
+    }
+  }
+]

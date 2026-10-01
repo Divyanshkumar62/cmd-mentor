@@ -1,0 +1,240 @@
+[
+  {
+    "id": "git.add.all",
+    "name": "git add",
+    "title": "Stage changes for the next commit",
+    "description": "Adds file contents to the staging area (index) so they are included in the next commit. Staging is a snapshot of the file at the time you ran the command - later edits need to be staged again.",
+    "commandTemplate": "git add <pathspec>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["git"],
+    "tags": ["git", "add", "stage", "staging", "index", "track"],
+    "aliases": ["stage a file", "stage changes", "add files to commit", "track a new file"],
+    "flags": [
+      { "name": "--all", "shorthand": "-A", "description": "Stage every change in the working tree, including deletions." },
+      { "name": "--patch", "shorthand": "-p", "description": "Interactively choose which hunks within a file to stage." },
+      { "name": "--update", "shorthand": "-u", "description": "Stage modifications and deletions, but not untracked files." }
+    ],
+    "examples": [
+      { "command": "git add .", "explanation": "Stages all changes in the current directory and below." },
+      { "command": "git add src/index.ts", "explanation": "Stages one specific file." }
+    ],
+    "risk": { "level": "low", "destructive": false, "requiresElevation": false, "sideEffects": "Updates the staging area only; working tree files are untouched.", "reversibility": "Fully reversible with 'git restore --staged <file>'." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "git-scm.com/docs/git-add" },
+    "relatedCommands": ["git.commit.all", "git.status.all", "git.restore.all"]
+  },
+  {
+    "id": "git.restore.all",
+    "name": "git restore",
+    "title": "Discard working tree changes or unstage files",
+    "description": "Restores files in the working tree or the staging area. Without --staged it overwrites your local edits, which cannot be recovered - review 'git diff' before running it.",
+    "commandTemplate": "git restore <pathspec>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["git"],
+    "tags": ["git", "restore", "discard", "unstage", "revert", "undo"],
+    "aliases": ["discard local changes", "unstage a file", "undo my edits", "throw away changes"],
+    "flags": [
+      { "name": "--staged", "description": "Remove the file from the staging area while keeping working tree edits." },
+      { "name": "--source", "shorthand": "-s", "description": "Restore content from a specific commit rather than the index." }
+    ],
+    "examples": [
+      { "command": "git restore --staged src/index.ts", "explanation": "Unstages the file but keeps your edits on disk." },
+      { "command": "git restore src/index.ts", "explanation": "Permanently discards uncommitted edits to that file." }
+    ],
+    "risk": { "level": "high", "destructive": true, "requiresElevation": false, "sideEffects": "Without --staged, uncommitted edits are overwritten and lost.", "reversibility": "Irreversible unless the change was previously committed or stashed." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "git-scm.com/docs/git-restore" },
+    "relatedCommands": ["git.add.all", "git.stash.all", "git.status.all"]
+  },
+  {
+    "id": "git.checkout.all",
+    "name": "git checkout",
+    "title": "Switch branches or restore files",
+    "description": "Switches the working tree to another branch or commit. This is the older, multi-purpose command; 'git switch' and 'git restore' split its two jobs and are clearer for new work.",
+    "commandTemplate": "git checkout <branch>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["git"],
+    "tags": ["git", "checkout", "branch", "switch", "change branch"],
+    "aliases": ["switch branch", "change to another branch", "checkout a branch"],
+    "flags": [
+      { "name": "-b", "description": "Create the branch and switch to it in one step." },
+      { "name": "--track", "shorthand": "-t", "description": "Set up the new branch to track a remote branch." }
+    ],
+    "examples": [
+      { "command": "git checkout main", "explanation": "Switches the working tree to the main branch." },
+      { "command": "git checkout -b feature/search", "explanation": "Creates a new branch and switches to it." }
+    ],
+    "risk": { "level": "moderate", "destructive": false, "requiresElevation": false, "sideEffects": "Rewrites working tree files to match the target branch. Refuses to run if it would overwrite uncommitted changes.", "reversibility": "Reversible by checking out the previous branch." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "git-scm.com/docs/git-checkout" },
+    "relatedCommands": ["git.switch.all", "git.branch.all", "git.status.all"]
+  },
+  {
+    "id": "git.switch.all",
+    "name": "git switch",
+    "title": "Switch to another branch",
+    "description": "Switches branches. Introduced in Git 2.23 as a clearer replacement for the branch-switching half of 'git checkout'. It will not silently discard uncommitted work.",
+    "commandTemplate": "git switch <branch>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["git"],
+    "tags": ["git", "switch", "branch", "change branch"],
+    "aliases": ["switch to a branch", "change branches safely", "create and switch branch"],
+    "flags": [
+      { "name": "--create", "shorthand": "-c", "description": "Create a new branch and switch to it." },
+      { "name": "--detach", "shorthand": "-d", "description": "Switch to a commit without attaching to a branch." }
+    ],
+    "examples": [
+      { "command": "git switch main", "explanation": "Switches to the main branch." },
+      { "command": "git switch -c feature/login", "explanation": "Creates the branch feature/login and switches to it." }
+    ],
+    "risk": { "level": "low", "destructive": false, "requiresElevation": false, "sideEffects": "Updates working tree files to match the target branch.", "reversibility": "Reversible by switching back." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "git-scm.com/docs/git-switch" },
+    "requires": { "tool": "git", "versionMin": "2.23" },
+    "relatedCommands": ["git.checkout.all", "git.branch.all"]
+  },
+  {
+    "id": "git.clone.all",
+    "name": "git clone",
+    "title": "Clone a repository into a new directory",
+    "description": "Copies a remote repository, including its full history, into a new local directory and sets up 'origin' as the default remote.",
+    "commandTemplate": "git clone <repository-url>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["git"],
+    "tags": ["git", "clone", "download", "copy repository", "checkout repo"],
+    "aliases": ["clone a repository", "download a git repo", "copy a project from github"],
+    "flags": [
+      { "name": "--depth", "description": "Create a shallow clone with a limited history, which is much faster." },
+      { "name": "--branch", "shorthand": "-b", "description": "Check out a specific branch instead of the default." }
+    ],
+    "examples": [
+      { "command": "git clone https://github.com/user/project.git", "explanation": "Clones the repository into a ./project directory." },
+      { "command": "git clone --depth 1 https://github.com/user/project.git", "explanation": "Clones only the latest commit for a faster download." }
+    ],
+    "risk": { "level": "low", "destructive": false, "requiresElevation": false, "sideEffects": "Creates a new directory and downloads repository data over the network.", "reversibility": "Reversible by deleting the created directory." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "git-scm.com/docs/git-clone" },
+    "requires": { "tool": "git" },
+    "relatedCommands": ["git.status.all", "git.pull.all"]
+  },
+  {
+    "id": "git.pull.all",
+    "name": "git pull",
+    "title": "Fetch and integrate changes from a remote",
+    "description": "Downloads commits from the remote branch and merges them into the current branch. It is 'git fetch' followed by 'git merge', so it can produce merge conflicts.",
+    "commandTemplate": "git pull [remote] [branch]",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["git"],
+    "tags": ["git", "pull", "fetch", "update", "sync", "merge remote"],
+    "aliases": ["get latest changes", "update my branch", "sync with remote"],
+    "flags": [
+      { "name": "--rebase", "shorthand": "-r", "description": "Replay local commits on top of the remote branch instead of merging." },
+      { "name": "--ff-only", "description": "Abort rather than create a merge commit if the update is not a fast-forward." }
+    ],
+    "examples": [
+      { "command": "git pull", "explanation": "Fetches and merges the tracked remote branch." },
+      { "command": "git pull --rebase origin main", "explanation": "Rebases local commits on top of origin/main for a linear history." }
+    ],
+    "risk": { "level": "moderate", "destructive": false, "requiresElevation": false, "sideEffects": "Modifies the working tree and may create a merge commit or leave conflicts to resolve.", "reversibility": "Recoverable via 'git reflog' and 'git reset'." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "git-scm.com/docs/git-pull" },
+    "requires": { "tool": "git" },
+    "relatedCommands": ["git.push.all", "git.status.all", "git.log.all"]
+  },
+  {
+    "id": "git.push.all",
+    "name": "git push",
+    "title": "Upload local commits to a remote repository",
+    "description": "Sends commits from a local branch to the remote. A plain push is safe; --force can overwrite commits other people depend on.",
+    "commandTemplate": "git push [remote] [branch]",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["git"],
+    "tags": ["git", "push", "upload", "publish", "share commits"],
+    "aliases": ["push my commits", "upload changes to remote", "publish a branch"],
+    "flags": [
+      { "name": "--set-upstream", "shorthand": "-u", "description": "Push and record the remote branch as the tracking branch." },
+      { "name": "--force-with-lease", "description": "Force push, but abort if the remote has commits you have not seen. Safer than --force." },
+      { "name": "--tags", "description": "Push tags along with commits." }
+    ],
+    "examples": [
+      { "command": "git push", "explanation": "Pushes the current branch to its tracked remote branch." },
+      { "command": "git push -u origin feature/search", "explanation": "Pushes a new branch and sets it to track origin." }
+    ],
+    "risk": { "level": "moderate", "destructive": false, "requiresElevation": false, "sideEffects": "Publishes commits to a shared remote where others can see them.", "reversibility": "Published history is hard to retract; a force push can destroy others' commits." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "git-scm.com/docs/git-push" },
+    "requires": { "tool": "git" },
+    "relatedCommands": ["git.pull.all", "git.status.all"]
+  },
+  {
+    "id": "git.init.all",
+    "name": "git init",
+    "title": "Create an empty Git repository",
+    "description": "Initialises a new Git repository in the current directory by creating a .git subdirectory. Existing files are left untouched and remain untracked until staged.",
+    "commandTemplate": "git init [directory]",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["git"],
+    "tags": ["git", "init", "create repository", "new repo", "initialize"],
+    "aliases": ["start a git repository", "create a new repo", "initialize git"],
+    "flags": [
+      { "name": "--bare", "description": "Create a repository with no working tree, used for shared server-side remotes." },
+      { "name": "--initial-branch", "shorthand": "-b", "description": "Set the name of the initial branch." }
+    ],
+    "examples": [
+      { "command": "git init", "explanation": "Initialises a repository in the current directory." },
+      { "command": "git init -b main my-project", "explanation": "Creates my-project with main as the initial branch." }
+    ],
+    "risk": { "level": "low", "destructive": false, "requiresElevation": false, "sideEffects": "Creates a .git directory.", "reversibility": "Reversible by deleting the .git directory." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "git-scm.com/docs/git-init" },
+    "requires": { "tool": "git" },
+    "relatedCommands": ["git.clone.all", "git.status.all"]
+  },
+  {
+    "id": "git.revert.all",
+    "name": "git revert",
+    "title": "Undo a commit by creating a new one",
+    "description": "Creates a new commit that reverses the changes of an earlier commit. Unlike 'git reset', it does not rewrite history, which makes it the safe way to undo work that has already been pushed.",
+    "commandTemplate": "git revert <commit>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["git"],
+    "tags": ["git", "revert", "undo", "rollback", "reverse commit"],
+    "aliases": ["undo a pushed commit", "safely undo a commit", "roll back a change"],
+    "flags": [
+      { "name": "--no-commit", "shorthand": "-n", "description": "Stage the reversal without creating the commit automatically." },
+      { "name": "--mainline", "shorthand": "-m", "description": "Specify which parent to treat as the mainline when reverting a merge." }
+    ],
+    "examples": [
+      { "command": "git revert HEAD", "explanation": "Creates a commit that undoes the most recent commit." },
+      { "command": "git revert --no-commit HEAD", "explanation": "Stages the reversal so you can review before committing." }
+    ],
+    "risk": { "level": "moderate", "destructive": false, "requiresElevation": false, "sideEffects": "Adds a new commit and modifies working tree files.", "reversibility": "Reversible - the original commit remains in history." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "git-scm.com/docs/git-revert" },
+    "requires": { "tool": "git" },
+    "relatedCommands": ["git.reset.soft", "git.log.all"]
+  },
+  {
+    "id": "git.remote.all",
+    "name": "git remote",
+    "title": "View and manage remote repositories",
+    "description": "Lists, adds, and removes the named remote repositories your local repository can fetch from and push to.",
+    "commandTemplate": "git remote [subcommand]",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["git"],
+    "tags": ["git", "remote", "origin", "upstream", "url"],
+    "aliases": ["show remote url", "add a remote", "check where origin points"],
+    "flags": [
+      { "name": "-v", "description": "Show the fetch and push URLs for each remote." }
+    ],
+    "examples": [
+      { "command": "git remote -v", "explanation": "Lists every remote with its fetch and push URLs." },
+      { "command": "git remote add origin https://github.com/user/project.git", "explanation": "Adds a remote named origin." }
+    ],
+    "risk": { "level": "low", "destructive": false, "requiresElevation": false, "sideEffects": "Modifies repository configuration only.", "reversibility": "Reversible with 'git remote remove'." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "git-scm.com/docs/git-remote" },
+    "requires": { "tool": "git" },
+    "relatedCommands": ["git.push.all", "git.pull.all", "git.clone.all"]
+  }
+]

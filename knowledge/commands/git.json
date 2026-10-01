@@ -1,0 +1,517 @@
+[
+  {
+    "id": "git.status.all",
+    "name": "git status",
+    "title": "Show the working tree status",
+    "description": "Displays paths that have differences between the index file and the current HEAD commit, paths that have differences between the working tree and the index file, and paths in the working tree that are untracked.",
+    "commandTemplate": "git status [options]",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "git"
+    ],
+    "tags": [
+      "git",
+      "status",
+      "changes",
+      "modified",
+      "untracked"
+    ],
+    "aliases": [
+      "check git status",
+      "what files changed in git",
+      "see modified files",
+      "git status"
+    ],
+    "flags": [
+      {
+        "name": "-s",
+        "shorthand": "--short",
+        "description": "Give the output in the short format."
+      },
+      {
+        "name": "-b",
+        "shorthand": "--branch",
+        "description": "Show the branch and tracking info even in short-format."
+      }
+    ],
+    "examples": [
+      {
+        "command": "git status",
+        "explanation": "Shows full detailed status of staged, unstaged, and untracked files."
+      },
+      {
+        "command": "git status -sb",
+        "explanation": "Shows compact short-format output with branch tracking information."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Read-only repository query.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Official Git Documentation"
+    },
+    "requires": {
+      "tool": "git",
+      "versionMin": "2.0"
+    },
+    "relatedCommands": [
+      "git.diff.all",
+      "git.log.all"
+    ]
+  },
+  {
+    "id": "git.commit.all",
+    "name": "git commit",
+    "title": "Record changes to the repository",
+    "description": "Create a new commit containing the current contents of the index and the given log message describing the changes.",
+    "commandTemplate": "git commit -m \"<message>\"",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "git"
+    ],
+    "tags": [
+      "git",
+      "commit",
+      "save",
+      "record",
+      "snapshot"
+    ],
+    "aliases": [
+      "commit changes",
+      "git commit",
+      "save changes to git",
+      "make a commit"
+    ],
+    "flags": [
+      {
+        "name": "-m",
+        "description": "Use the given message as the commit message."
+      },
+      {
+        "name": "-a",
+        "shorthand": "--all",
+        "description": "Automatically stage files that have been modified and deleted, but untracked files are not affected."
+      },
+      {
+        "name": "--amend",
+        "description": "Replace the tip of the current branch by creating a new commit."
+      }
+    ],
+    "examples": [
+      {
+        "command": "git commit -m \"feat: implement offline search engine\"",
+        "explanation": "Creates a commit with the specified message."
+      },
+      {
+        "command": "git commit -am \"fix: handle edge case in parsing\"",
+        "explanation": "Stages all modified tracked files and commits them in a single command."
+      }
+    ],
+    "risk": {
+      "level": "moderate",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Creates a new git commit object and advances HEAD.",
+      "reversibility": "Reversible with git reset HEAD~1."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Official Git Documentation"
+    },
+    "requires": {
+      "tool": "git",
+      "versionMin": "2.0"
+    },
+    "relatedCommands": [
+      "git.add.all",
+      "git.status.all"
+    ]
+  },
+  {
+    "id": "git.branch.all",
+    "name": "git branch",
+    "title": "List, create, or delete branches",
+    "description": "Lists existing branches, creates a new branch, or deletes an existing branch.",
+    "commandTemplate": "git branch [options] [branch_name]",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "git"
+    ],
+    "tags": [
+      "git",
+      "branch",
+      "create branch",
+      "delete branch",
+      "list branches"
+    ],
+    "aliases": [
+      "show branches",
+      "create git branch",
+      "delete a branch",
+      "list git branches"
+    ],
+    "flags": [
+      {
+        "name": "-a",
+        "shorthand": "--all",
+        "description": "List both remote-tracking branches and local branches."
+      },
+      {
+        "name": "-d",
+        "shorthand": "--delete",
+        "description": "Delete a branch. The branch must be fully merged in its upstream branch."
+      },
+      {
+        "name": "-D",
+        "description": "Shortcut for --delete --force; delete a branch irrespective of its merged status."
+      }
+    ],
+    "examples": [
+      {
+        "command": "git branch",
+        "explanation": "Lists all local branches with the current branch highlighted."
+      },
+      {
+        "command": "git branch feature-search",
+        "explanation": "Creates a new branch named 'feature-search' based on the current HEAD."
+      },
+      {
+        "command": "git branch -d old-feature",
+        "explanation": "Safely deletes the merged branch 'old-feature'."
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Updates git branch references.",
+      "reversibility": "Deleted branches can be recovered via git reflog if unpruned."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Official Git Documentation"
+    },
+    "requires": {
+      "tool": "git",
+      "versionMin": "2.0"
+    },
+    "relatedCommands": [
+      "git.checkout.all",
+      "git.switch.all"
+    ]
+  },
+  {
+    "id": "git.reset.soft",
+    "name": "git reset",
+    "title": "Reset current HEAD to the specified state",
+    "description": "Resets the current branch head to commit and optionally updates the index and the working tree.",
+    "commandTemplate": "git reset [mode] <commit>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "git"
+    ],
+    "tags": [
+      "git",
+      "reset",
+      "undo",
+      "undo commit",
+      "unstage"
+    ],
+    "aliases": [
+      "undo last commit",
+      "undo git commit",
+      "unstage files",
+      "git reset"
+    ],
+    "flags": [
+      {
+        "name": "--soft",
+        "description": "Does not touch the index file or the working tree at all; resets HEAD only."
+      },
+      {
+        "name": "--hard",
+        "description": "Resets the index and working tree. Any changes to tracked files in the working tree since commit are discarded."
+      }
+    ],
+    "examples": [
+      {
+        "command": "git reset --soft HEAD~1",
+        "explanation": "Undoes the last commit while keeping all modifications staged in the index."
+      },
+      {
+        "command": "git reset HEAD <file>",
+        "explanation": "Unstages a specific file while keeping your changes in the working directory."
+      }
+    ],
+    "risk": {
+      "level": "high",
+      "destructive": true,
+      "requiresElevation": false,
+      "sideEffects": "Rewinds branch history. With --hard, permanently deletes uncommitted changes.",
+      "reversibility": "Soft resets are reversible via git reflog. Hard resets discard uncommitted work permanently."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Official Git Documentation"
+    },
+    "requires": {
+      "tool": "git",
+      "versionMin": "2.0"
+    },
+    "relatedCommands": [
+      "git.commit.all",
+      "git.status.all"
+    ]
+  },
+  {
+    "id": "git.diff.all",
+    "name": "git diff",
+    "title": "Show changes between commits, commit and working tree",
+    "description": "Displays line-by-line modifications between working tree, index, or commits.",
+    "commandTemplate": "git diff [options] [commit]",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "git"
+    ],
+    "tags": [
+      "git",
+      "diff",
+      "changes",
+      "compare",
+      "patch"
+    ],
+    "aliases": [
+      "show git changes",
+      "compare git changes",
+      "view file diff in git"
+    ],
+    "flags": [
+      {
+        "name": "--staged",
+        "shorthand": "--cached",
+        "description": "View changes staged for the next commit."
+      }
+    ],
+    "examples": [
+      {
+        "command": "git diff",
+        "explanation": "Shows unstaged changes in the working directory compared to the index."
+      },
+      {
+        "command": "git diff --staged",
+        "explanation": "Shows changes that are currently staged for commit."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Read-only repository query.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Official Git Documentation"
+    },
+    "requires": {
+      "tool": "git"
+    }
+  },
+  {
+    "id": "git.log.all",
+    "name": "git log",
+    "title": "Show commit logs",
+    "description": "Shows the commit logs starting from HEAD backwards.",
+    "commandTemplate": "git log [options]",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "git"
+    ],
+    "tags": [
+      "git",
+      "log",
+      "history",
+      "commits",
+      "timeline"
+    ],
+    "aliases": [
+      "show commit history",
+      "git history",
+      "view git commits",
+      "git log"
+    ],
+    "flags": [
+      {
+        "name": "--oneline",
+        "description": "Shorthand for --pretty=oneline --abbrev-commit used together."
+      },
+      {
+        "name": "-n",
+        "description": "Limit the number of commits to output."
+      }
+    ],
+    "examples": [
+      {
+        "command": "git log --oneline -n 10",
+        "explanation": "Shows the 10 most recent commits in concise one-line format."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Read-only history query.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Official Git Documentation"
+    },
+    "requires": {
+      "tool": "git"
+    }
+  },
+  {
+    "id": "git.stash.all",
+    "name": "git stash",
+    "title": "Stash changes in a dirty working directory",
+    "description": "Temporarily shelves (or stashes) changes you've made to your working copy so you can work on something else.",
+    "commandTemplate": "git stash [push|pop|list]",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "git"
+    ],
+    "tags": [
+      "git",
+      "stash",
+      "save temporary",
+      "shelve",
+      "pop stash"
+    ],
+    "aliases": [
+      "stash changes",
+      "temporarily save git changes",
+      "git stash pop"
+    ],
+    "flags": [
+      {
+        "name": "-u",
+        "shorthand": "--include-untracked",
+        "description": "All untracked files are also stashed and then cleaned."
+      }
+    ],
+    "examples": [
+      {
+        "command": "git stash",
+        "explanation": "Saves all local uncommitted changes and resets the working tree to HEAD."
+      },
+      {
+        "command": "git stash pop",
+        "explanation": "Restores the most recently stashed changes to the working directory."
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Modifies working directory and saves changes to git stash stack.",
+      "reversibility": "Reversible via git stash pop."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Official Git Documentation"
+    },
+    "requires": {
+      "tool": "git"
+    }
+  }
+]

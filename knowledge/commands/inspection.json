@@ -1,0 +1,266 @@
+[
+  {
+    "id": "inspection.tail.posix",
+    "name": "tail",
+    "title": "Output the last part of files",
+    "description": "Prints the last 10 lines of each file to standard output. With -f, follows append changes in real-time.",
+    "commandTemplate": "tail [options] <file>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "git-bash"
+    ],
+    "category": [
+      "inspection",
+      "logs"
+    ],
+    "tags": [
+      "tail",
+      "log",
+      "follow",
+      "last lines",
+      "inspect"
+    ],
+    "aliases": [
+      "view last lines of log",
+      "tail -f log",
+      "follow log file",
+      "show last 50 log lines"
+    ],
+    "flags": [
+      {
+        "name": "-f",
+        "shorthand": "--follow",
+        "description": "Output appended data as the file grows."
+      },
+      {
+        "name": "-n",
+        "shorthand": "--lines",
+        "description": "Output the last N lines, instead of the default last 10."
+      }
+    ],
+    "examples": [
+      {
+        "command": "tail -n 50 app.log",
+        "explanation": "Outputs the last 50 lines of app.log."
+      },
+      {
+        "command": "tail -f /var/log/syslog",
+        "explanation": "Monitors and streams new log lines added to syslog in real time."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Read-only file inspection.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "POSIX standard / GNU coreutils"
+    },
+    "relatedCommands": [
+      "inspection.grep.posix",
+      "inspection.head.posix"
+    ]
+  },
+  {
+    "id": "inspection.head.posix",
+    "name": "head",
+    "title": "Output the first part of files",
+    "description": "Prints the first 10 lines of each file to standard output.",
+    "commandTemplate": "head [options] <file>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "git-bash"
+    ],
+    "category": [
+      "inspection"
+    ],
+    "tags": [
+      "head",
+      "first lines",
+      "preview",
+      "file start"
+    ],
+    "aliases": [
+      "show first 10 lines",
+      "view file beginning",
+      "head file"
+    ],
+    "flags": [
+      {
+        "name": "-n",
+        "description": "Print the first N lines instead of the first 10."
+      }
+    ],
+    "examples": [
+      {
+        "command": "head -n 20 data.csv",
+        "explanation": "Prints the first 20 lines of data.csv."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Read-only file query.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "POSIX standard"
+    },
+    "relatedCommands": [
+      "inspection.tail.posix"
+    ]
+  },
+  {
+    "id": "inspection.grep.posix",
+    "name": "grep",
+    "title": "Search patterns in files",
+    "description": "Searches for patterns in each file or standard input and prints matching lines.",
+    "commandTemplate": "grep [options] <pattern> <file>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "git-bash"
+    ],
+    "category": [
+      "inspection",
+      "search"
+    ],
+    "tags": [
+      "grep",
+      "search",
+      "find in file",
+      "regex",
+      "pattern"
+    ],
+    "aliases": [
+      "search inside file",
+      "find text in file",
+      "grep pattern",
+      "search log for error"
+    ],
+    "flags": [
+      {
+        "name": "-i",
+        "shorthand": "--ignore-case",
+        "description": "Ignore case distinctions in patterns and input data."
+      },
+      {
+        "name": "-r",
+        "shorthand": "-R",
+        "description": "Read all files under each directory, recursively."
+      },
+      {
+        "name": "-n",
+        "shorthand": "--line-number",
+        "description": "Prefix each line of output with the 1-based line number within its input file."
+      }
+    ],
+    "examples": [
+      {
+        "command": "grep -i \"error\" app.log",
+        "explanation": "Case-insensitively searches for 'error' in app.log."
+      },
+      {
+        "command": "grep -rn \"TODO\" ./src",
+        "explanation": "Recursively searches for 'TODO' in ./src and prints matching files and line numbers."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Read-only filesystem pattern scan.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "POSIX standard / GNU grep"
+    },
+    "relatedCommands": [
+      "inspection.tail.posix"
+    ]
+  },
+  {
+    "id": "inspection.cat.posix",
+    "name": "cat",
+    "title": "Concatenate and display file content",
+    "description": "Reads files sequentially, writing them to the standard output.",
+    "commandTemplate": "cat [options] [file...]",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "git-bash"
+    ],
+    "category": [
+      "inspection"
+    ],
+    "tags": [
+      "cat",
+      "read file",
+      "display",
+      "print file content"
+    ],
+    "aliases": [
+      "read file in terminal",
+      "show file contents",
+      "display file text",
+      "cat file"
+    ],
+    "flags": [
+      {
+        "name": "-n",
+        "shorthand": "--number",
+        "description": "Number all output lines."
+      }
+    ],
+    "examples": [
+      {
+        "command": "cat package.json",
+        "explanation": "Displays the full contents of package.json to the terminal."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Read-only stream.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "POSIX standard"
+    }
+  }
+]

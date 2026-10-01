@@ -1,0 +1,344 @@
+[
+  {
+    "id": "docker.run.posix",
+    "name": "docker run",
+    "title": "Run a command in a new container",
+    "description": "Creates a writeable container layer over the specified image, and then starts it using the specified command.",
+    "commandTemplate": "docker run [options] <image> [command]",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "docker",
+      "containers"
+    ],
+    "tags": [
+      "docker",
+      "container",
+      "run",
+      "start container",
+      "image"
+    ],
+    "aliases": [
+      "start a docker container",
+      "run docker container",
+      "docker run"
+    ],
+    "flags": [
+      {
+        "name": "-d",
+        "shorthand": "--detach",
+        "description": "Run container in background and print container ID."
+      },
+      {
+        "name": "-p",
+        "shorthand": "--publish",
+        "description": "Publish a container's port(s) to the host (hostPort:containerPort)."
+      },
+      {
+        "name": "-v",
+        "shorthand": "--volume",
+        "description": "Bind mount a volume."
+      },
+      {
+        "name": "--name",
+        "description": "Assign a name to the container."
+      }
+    ],
+    "examples": [
+      {
+        "command": "docker run -d -p 8080:80 --name web nginx",
+        "explanation": "Runs an nginx container in background, exposing container port 80 to host port 8080."
+      }
+    ],
+    "risk": {
+      "level": "moderate",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Starts a background container process and binds host network ports.",
+      "reversibility": "Reversible with docker stop and docker rm."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Docker CLI Documentation"
+    },
+    "requires": {
+      "tool": "docker",
+      "versionMin": "20.0"
+    },
+    "relatedCommands": [
+      "docker.ps.posix",
+      "docker.compose.posix"
+    ]
+  },
+  {
+    "id": "docker.ps.posix",
+    "name": "docker ps",
+    "title": "List Docker containers",
+    "description": "Lists currently running containers, or all containers if -a flag is supplied.",
+    "commandTemplate": "docker ps [options]",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "docker",
+      "containers"
+    ],
+    "tags": [
+      "docker",
+      "list containers",
+      "ps",
+      "active containers"
+    ],
+    "aliases": [
+      "show running docker containers",
+      "list docker containers",
+      "docker ps"
+    ],
+    "flags": [
+      {
+        "name": "-a",
+        "shorthand": "--all",
+        "description": "Show all containers (default shows just running)."
+      },
+      {
+        "name": "-q",
+        "shorthand": "--quiet",
+        "description": "Only display numeric container IDs."
+      }
+    ],
+    "examples": [
+      {
+        "command": "docker ps",
+        "explanation": "Lists all currently active running containers."
+      },
+      {
+        "command": "docker ps -a",
+        "explanation": "Lists all containers including exited/stopped ones."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Read-only Docker daemon query.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Docker CLI Documentation"
+    },
+    "requires": {
+      "tool": "docker"
+    }
+  },
+  {
+    "id": "docker.compose.posix",
+    "name": "docker compose up",
+    "title": "Create and start Docker Compose containers",
+    "description": "Builds, (re)creates, starts, and attaches to containers for a service specified in docker-compose.yml.",
+    "commandTemplate": "docker compose up [options]",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "docker",
+      "containers"
+    ],
+    "tags": [
+      "compose",
+      "docker-compose",
+      "multi-container",
+      "up",
+      "start stack"
+    ],
+    "aliases": [
+      "start docker compose",
+      "run docker compose stack",
+      "docker compose up"
+    ],
+    "flags": [
+      {
+        "name": "-d",
+        "shorthand": "--detach",
+        "description": "Detached mode: Run containers in the background."
+      },
+      {
+        "name": "--build",
+        "description": "Build images before starting containers."
+      }
+    ],
+    "examples": [
+      {
+        "command": "docker compose up -d",
+        "explanation": "Starts all services defined in docker-compose.yml in detached background mode."
+      }
+    ],
+    "risk": {
+      "level": "moderate",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Provisions networks, volumes, and starts multiple service containers.",
+      "reversibility": "Reversible with docker compose down."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Docker Compose Specification"
+    },
+    "requires": {
+      "tool": "docker"
+    }
+  },
+  {
+    "id": "docker.logs.posix",
+    "name": "docker logs",
+    "title": "Fetch the logs of a container",
+    "description": "Shows information logged by a running container using standard output or standard error streams.",
+    "commandTemplate": "docker logs [options] <container>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "docker",
+      "logs"
+    ],
+    "tags": [
+      "docker",
+      "logs",
+      "container logs",
+      "inspect output"
+    ],
+    "aliases": [
+      "view docker container logs",
+      "follow docker logs",
+      "docker logs"
+    ],
+    "flags": [
+      {
+        "name": "-f",
+        "shorthand": "--follow",
+        "description": "Follow log output in real time."
+      },
+      {
+        "name": "--tail",
+        "description": "Number of lines to show from the end of the logs."
+      }
+    ],
+    "examples": [
+      {
+        "command": "docker logs -f web",
+        "explanation": "Streams logs from the container named 'web' in real time."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Read-only stream.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Docker CLI Documentation"
+    },
+    "requires": {
+      "tool": "docker"
+    }
+  },
+  {
+    "id": "docker.stop.posix",
+    "name": "docker stop",
+    "title": "Stop one or more running containers",
+    "description": "The main process inside the container will receive SIGTERM, and after a grace period, SIGKILL.",
+    "commandTemplate": "docker stop <container>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "powershell",
+      "cmd",
+      "git-bash"
+    ],
+    "category": [
+      "docker",
+      "containers"
+    ],
+    "tags": [
+      "docker",
+      "stop",
+      "halt container",
+      "shutdown container"
+    ],
+    "aliases": [
+      "stop docker container",
+      "halt container",
+      "docker stop"
+    ],
+    "flags": [],
+    "examples": [
+      {
+        "command": "docker stop web",
+        "explanation": "Gracefully halts the container named 'web'."
+      }
+    ],
+    "risk": {
+      "level": "moderate",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Stops running container process.",
+      "reversibility": "Can be restarted using docker start."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Docker CLI Documentation"
+    },
+    "requires": {
+      "tool": "docker"
+    }
+  }
+]

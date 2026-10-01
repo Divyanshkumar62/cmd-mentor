@@ -1,0 +1,172 @@
+[
+  {
+    "id": "service.systemctl.status",
+    "name": "systemctl status",
+    "title": "Check systemd service status (Linux)",
+    "description": "Queries the status of systemd units and services.",
+    "commandTemplate": "systemctl status <service_name>",
+    "platforms": [
+      "linux"
+    ],
+    "shells": [
+      "bash",
+      "zsh"
+    ],
+    "category": [
+      "services",
+      "system"
+    ],
+    "tags": [
+      "service",
+      "systemctl",
+      "systemd",
+      "daemon",
+      "status",
+      "nginx"
+    ],
+    "aliases": [
+      "check service status",
+      "is service running",
+      "systemctl status nginx",
+      "service status"
+    ],
+    "flags": [
+      {
+        "name": "-l",
+        "shorthand": "--full",
+        "description": "Don't ellipse unit names or truncate log entries."
+      }
+    ],
+    "examples": [
+      {
+        "command": "systemctl status nginx",
+        "explanation": "Checks if the Nginx web server daemon is active and running."
+      },
+      {
+        "command": "systemctl status docker",
+        "explanation": "Checks the state of the Docker engine service."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Queries systemd bus daemon.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "systemd man pages"
+    },
+    "relatedCommands": [
+      "service.systemctl.restart"
+    ]
+  },
+  {
+    "id": "service.systemctl.restart",
+    "name": "systemctl restart",
+    "title": "Restart a systemd service (Linux)",
+    "description": "Restarts one or more system units or daemons specified on the command line.",
+    "commandTemplate": "sudo systemctl restart <service_name>",
+    "platforms": [
+      "linux"
+    ],
+    "shells": [
+      "bash",
+      "zsh"
+    ],
+    "category": [
+      "services",
+      "system"
+    ],
+    "tags": [
+      "service",
+      "restart",
+      "systemctl",
+      "reload",
+      "nginx"
+    ],
+    "aliases": [
+      "restart service",
+      "restart nginx",
+      "systemctl restart",
+      "reload service daemon"
+    ],
+    "flags": [],
+    "examples": [
+      {
+        "command": "sudo systemctl restart nginx",
+        "explanation": "Restarts the Nginx web server service with administrative elevation."
+      }
+    ],
+    "risk": {
+      "level": "high",
+      "destructive": true,
+      "requiresElevation": true,
+      "sideEffects": "Temporarily drops existing active connections and restarts background service daemon.",
+      "reversibility": "Can be restarted or stopped."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "systemd man pages"
+    },
+    "relatedCommands": [
+      "service.systemctl.status"
+    ]
+  },
+  {
+    "id": "service.powershell.getservice",
+    "name": "Get-Service",
+    "title": "Get status of Windows services (PowerShell)",
+    "description": "PowerShell cmdlet that gets objects that represent the services on a local or remote computer.",
+    "commandTemplate": "Get-Service -Name <service_name>",
+    "platforms": [
+      "windows"
+    ],
+    "shells": [
+      "powershell"
+    ],
+    "category": [
+      "services",
+      "system"
+    ],
+    "tags": [
+      "service",
+      "windows service",
+      "get-service",
+      "status",
+      "powershell"
+    ],
+    "aliases": [
+      "check windows service",
+      "is windows service running",
+      "get-service in powershell"
+    ],
+    "flags": [],
+    "examples": [
+      {
+        "command": "Get-Service -Name wuauserv",
+        "explanation": "Checks the state of the Windows Update service."
+      },
+      {
+        "command": "Get-Service | Where-Object {$_.Status -eq 'Running'}",
+        "explanation": "Lists all currently running Windows services."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Read-only query of the Windows Service Control Manager.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Microsoft Learn PowerShell"
+    },
+    "requiresShell": true
+  }
+]

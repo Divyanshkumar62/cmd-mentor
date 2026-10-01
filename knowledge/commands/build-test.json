@@ -1,0 +1,168 @@
+[
+  {
+    "id": "build.npm.test",
+    "name": "npm test",
+    "title": "Run the project test suite",
+    "description": "Runs the 'test' script defined in package.json. Most Node projects wire this to their test runner (Vitest, Jest, Mocha), so it is the conventional entry point for verifying a change.",
+    "commandTemplate": "npm test",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["build", "testing", "javascript"],
+    "tags": ["npm", "test", "testing", "suite", "verify", "ci"],
+    "aliases": ["run the tests", "run my test suite", "execute unit tests"],
+    "flags": [
+      { "name": "--watch", "description": "Re-run tests automatically when files change, if the runner supports it." }
+    ],
+    "examples": [
+      { "command": "npm test", "explanation": "Runs the test script from package.json." },
+      { "command": "npm test -- --coverage", "explanation": "Passes --coverage through to the underlying test runner." }
+    ],
+    "risk": { "level": "low", "destructive": false, "requiresElevation": false, "sideEffects": "Runs project code and may create coverage or snapshot output files.", "reversibility": "Reversible; generated artifacts can be deleted." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "docs.npmjs.com/cli/commands/npm-test" },
+    "requires": { "tool": "npm" },
+    "relatedCommands": ["package.npm.run", "build.npm.build"]
+  },
+  {
+    "id": "build.npm.build",
+    "name": "npm run build",
+    "title": "Build the project for production",
+    "description": "Runs the 'build' script from package.json, typically compiling and bundling sources into a dist or build directory.",
+    "commandTemplate": "npm run build",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["build", "javascript"],
+    "tags": ["npm", "build", "compile", "bundle", "production", "dist"],
+    "aliases": ["build the project", "compile for production", "bundle my app"],
+    "flags": [],
+    "examples": [
+      { "command": "npm run build", "explanation": "Executes the build script defined in package.json." }
+    ],
+    "risk": { "level": "moderate", "destructive": false, "requiresElevation": false, "sideEffects": "Usually overwrites the output directory (dist/, build/) from scratch.", "reversibility": "Reversible by rebuilding; generated output is not source." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "docs.npmjs.com/cli/commands/npm-run-script" },
+    "requires": { "tool": "npm" },
+    "relatedCommands": ["build.npm.test", "package.npm.install"]
+  },
+  {
+    "id": "build.pytest.posix",
+    "name": "pytest",
+    "title": "Run Python tests with pytest",
+    "description": "Discovers and runs Python tests. By default it collects files named test_*.py or *_test.py from the current directory downwards.",
+    "commandTemplate": "pytest [path]",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["build", "testing", "python"],
+    "tags": ["pytest", "python", "test", "testing", "unittest"],
+    "aliases": ["run python tests", "test my python code"],
+    "flags": [
+      { "name": "-v", "description": "Verbose output listing each test name and result." },
+      { "name": "-k", "description": "Run only tests whose name matches the given expression." },
+      { "name": "-x", "description": "Stop after the first failure." }
+    ],
+    "examples": [
+      { "command": "pytest", "explanation": "Discovers and runs every test from the current directory." },
+      { "command": "pytest -v tests/unit", "explanation": "Runs only the unit test directory with verbose output." }
+    ],
+    "risk": { "level": "low", "destructive": false, "requiresElevation": false, "sideEffects": "Executes project code; tests may touch temporary files or databases.", "reversibility": "Depends on what the tests themselves do." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "docs.pytest.org" },
+    "requires": { "tool": "pytest" },
+    "relatedCommands": ["runtime.python.venv", "build.make.posix"]
+  },
+  {
+    "id": "build.make.posix",
+    "name": "make",
+    "title": "Run a target from a Makefile",
+    "description": "Builds the named target defined in a Makefile, rebuilding only what is out of date based on file timestamps. With no target it runs the first one in the file.",
+    "commandTemplate": "make [target]",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "git-bash", "fish"],
+    "category": ["build"],
+    "tags": ["make", "makefile", "build", "target", "compile"],
+    "aliases": ["run a makefile target", "build with make"],
+    "flags": [
+      { "name": "-j", "description": "Run that many recipes in parallel to speed up the build." },
+      { "name": "-n", "description": "Dry run - print the commands without executing them." },
+      { "name": "-C", "description": "Change to the given directory before reading the Makefile." }
+    ],
+    "examples": [
+      { "command": "make", "explanation": "Runs the first target in the Makefile." },
+      { "command": "make -j4 build", "explanation": "Runs the build target using four parallel jobs." }
+    ],
+    "risk": { "level": "moderate", "destructive": false, "requiresElevation": false, "sideEffects": "Runs arbitrary commands defined in the Makefile, which may write or delete files.", "reversibility": "Depends entirely on the Makefile contents; review it before running unfamiliar targets." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "gnu.org/software/make/manual" },
+    "requires": { "tool": "make" },
+    "relatedCommands": ["build.npm.build", "build.gradle.posix"]
+  },
+  {
+    "id": "build.maven.posix",
+    "name": "mvn",
+    "title": "Build a Java project with Maven",
+    "description": "Runs a Maven build lifecycle phase. Each phase implies the ones before it, so 'mvn package' also compiles and tests.",
+    "commandTemplate": "mvn <phase>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["build", "java"],
+    "tags": ["maven", "mvn", "java", "build", "package", "compile"],
+    "aliases": ["build a java project", "package a jar with maven", "run maven tests"],
+    "flags": [
+      { "name": "-DskipTests", "description": "Compile the tests but do not run them." },
+      { "name": "-o", "description": "Work offline using only the local repository cache." },
+      { "name": "-P", "description": "Activate a named build profile." }
+    ],
+    "examples": [
+      { "command": "mvn clean package", "explanation": "Removes previous output, then compiles, tests, and packages the project." },
+      { "command": "mvn test", "explanation": "Compiles the project and runs its unit tests." }
+    ],
+    "risk": { "level": "moderate", "destructive": false, "requiresElevation": false, "sideEffects": "'clean' deletes the target directory; downloads dependencies over the network.", "reversibility": "Reversible by rebuilding." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "maven.apache.org/guides" },
+    "requires": { "tool": "mvn" },
+    "relatedCommands": ["runtime.java.jar", "build.gradle.posix"]
+  },
+  {
+    "id": "build.gradle.posix",
+    "name": "gradle",
+    "title": "Build a project with Gradle",
+    "description": "Runs a Gradle task. Most projects ship a wrapper script (./gradlew) that pins the Gradle version, which is preferred over a globally installed gradle.",
+    "commandTemplate": "gradle <task>",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["build", "java"],
+    "tags": ["gradle", "gradlew", "java", "kotlin", "build", "task"],
+    "aliases": ["build with gradle", "run a gradle task", "assemble a java project"],
+    "flags": [
+      { "name": "--offline", "description": "Resolve dependencies from the cache without network access." },
+      { "name": "--stacktrace", "description": "Print a full stack trace when the build fails." }
+    ],
+    "examples": [
+      { "command": "gradle build", "explanation": "Assembles and tests the project." },
+      { "command": "gradle clean test", "explanation": "Deletes previous build output, then runs the tests." }
+    ],
+    "risk": { "level": "moderate", "destructive": false, "requiresElevation": false, "sideEffects": "'clean' deletes the build directory; downloads dependencies over the network.", "reversibility": "Reversible by rebuilding." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "docs.gradle.org" },
+    "requires": { "tool": "gradle" },
+    "relatedCommands": ["build.maven.posix", "runtime.java.jar"]
+  },
+  {
+    "id": "build.cargo.test",
+    "name": "cargo test",
+    "title": "Run Rust tests with Cargo",
+    "description": "Compiles the Rust project in test mode and runs every unit, integration, and documentation test.",
+    "commandTemplate": "cargo test [filter]",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell", "cmd", "git-bash", "fish"],
+    "category": ["build", "testing", "rust"],
+    "tags": ["cargo", "rust", "test", "testing"],
+    "aliases": ["run rust tests", "test a cargo project"],
+    "flags": [
+      { "name": "--release", "description": "Run tests against an optimised release build." },
+      { "name": "--no-run", "description": "Compile the tests but do not execute them." }
+    ],
+    "examples": [
+      { "command": "cargo test", "explanation": "Builds and runs the whole test suite." },
+      { "command": "cargo test parser", "explanation": "Runs only tests whose name contains 'parser'." }
+    ],
+    "risk": { "level": "low", "destructive": false, "requiresElevation": false, "sideEffects": "Writes compiled artifacts into the target directory.", "reversibility": "Reversible with 'cargo clean'." },
+    "verification": { "status": "reviewed", "lastReviewed": "2026-09-22", "source": "doc.rust-lang.org/cargo/commands/cargo-test.html" },
+    "requires": { "tool": "cargo" },
+    "relatedCommands": ["build.npm.test", "build.pytest.posix"]
+  }
+]

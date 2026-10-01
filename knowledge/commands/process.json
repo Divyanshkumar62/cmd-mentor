@@ -1,0 +1,313 @@
+[
+  {
+    "id": "process.port.inspection",
+    "name": "lsof",
+    "title": "Find process using a specific port (POSIX)",
+    "description": "Lists open files and network sockets associated with active processes.",
+    "commandTemplate": "lsof -i :<port>",
+    "platforms": [
+      "linux",
+      "macos"
+    ],
+    "shells": [
+      "bash",
+      "zsh"
+    ],
+    "category": [
+      "process",
+      "network"
+    ],
+    "tags": [
+      "port",
+      "process",
+      "lsof",
+      "listen",
+      "socket",
+      "8080"
+    ],
+    "aliases": [
+      "find process using port",
+      "check port 8080",
+      "who is using port",
+      "port in use"
+    ],
+    "flags": [
+      {
+        "name": "-i",
+        "description": "Selects the listing of all network files."
+      },
+      {
+        "name": "-P",
+        "description": "Inhibits the conversion of port numbers to port names for network files."
+      },
+      {
+        "name": "-n",
+        "description": "Inhibits the conversion of network numbers to host names."
+      }
+    ],
+    "examples": [
+      {
+        "command": "lsof -i :8080",
+        "explanation": "Displays process name, PID, and user listening on port 8080."
+      },
+      {
+        "command": "lsof -iTCP -sTCP:LISTEN -n -P",
+        "explanation": "Lists all TCP ports currently in LISTEN state with numeric ports."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Queries system kernel socket tables.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "BSD / Linux man pages"
+    },
+    "relatedCommands": [
+      "process.netstat.windows",
+      "process.kill.posix"
+    ]
+  },
+  {
+    "id": "process.netstat.windows",
+    "name": "netstat",
+    "title": "Find process using a port (Windows)",
+    "description": "Displays active TCP connections, listening ports, and the owning process identifier (PID) on Windows.",
+    "commandTemplate": "netstat -ano | findstr :<port>",
+    "platforms": [
+      "windows"
+    ],
+    "shells": [
+      "cmd",
+      "powershell"
+    ],
+    "category": [
+      "process",
+      "network"
+    ],
+    "tags": [
+      "port",
+      "windows",
+      "netstat",
+      "process",
+      "findstr",
+      "8080"
+    ],
+    "aliases": [
+      "find process using port on windows",
+      "windows check port",
+      "netstat port 8080"
+    ],
+    "flags": [
+      {
+        "name": "-a",
+        "description": "Displays all active connections and listening ports."
+      },
+      {
+        "name": "-n",
+        "description": "Displays addresses and port numbers in numerical form."
+      },
+      {
+        "name": "-o",
+        "description": "Displays the owning process ID associated with each connection."
+      }
+    ],
+    "examples": [
+      {
+        "command": "netstat -ano | findstr :8080",
+        "explanation": "Filters active connections for port 8080 and outputs the PID in the last column."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Read-only network table query.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Microsoft Learn Command Reference"
+    },
+    "relatedCommands": [
+      "process.port.inspection"
+    ],
+    "requiresShell": true
+  },
+  {
+    "id": "process.kill.posix",
+    "name": "kill",
+    "title": "Terminate process by PID",
+    "description": "Sends a signal to terminate or control processes specified by process ID (PID).",
+    "commandTemplate": "kill [signal] <pid>",
+    "platforms": [
+      "linux",
+      "macos",
+      "windows"
+    ],
+    "shells": [
+      "bash",
+      "zsh",
+      "git-bash"
+    ],
+    "category": [
+      "process"
+    ],
+    "tags": [
+      "kill",
+      "terminate",
+      "stop",
+      "process",
+      "pid"
+    ],
+    "aliases": [
+      "kill a process",
+      "stop process by pid",
+      "kill pid",
+      "terminate process"
+    ],
+    "flags": [
+      {
+        "name": "-9",
+        "shorthand": "-KILL",
+        "description": "Send non-catchable SIGKILL signal forcing immediate process termination."
+      },
+      {
+        "name": "-15",
+        "shorthand": "-TERM",
+        "description": "Send default SIGTERM signal requesting graceful process termination."
+      }
+    ],
+    "examples": [
+      {
+        "command": "kill 12345",
+        "explanation": "Requests graceful termination (SIGTERM) of process ID 12345."
+      },
+      {
+        "command": "kill -9 12345",
+        "explanation": "Forces immediate termination (SIGKILL) of process ID 12345."
+      }
+    ],
+    "risk": {
+      "level": "moderate",
+      "destructive": true,
+      "requiresElevation": false,
+      "sideEffects": "Terminates target process and frees its allocated resources.",
+      "reversibility": "Process cannot be unkilled; must be restarted."
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "POSIX standard / GNU coreutils"
+    },
+    "relatedCommands": [
+      "process.port.inspection"
+    ]
+  },
+  {
+    "id": "process.ps.posix",
+    "name": "ps aux",
+    "title": "Report a snapshot of the current processes (POSIX)",
+    "description": "Displays information about a selection of the active processes running on the system.",
+    "commandTemplate": "ps aux",
+    "platforms": [
+      "linux",
+      "macos"
+    ],
+    "shells": [
+      "bash",
+      "zsh"
+    ],
+    "category": [
+      "process"
+    ],
+    "tags": [
+      "ps",
+      "processes",
+      "list processes",
+      "cpu",
+      "memory",
+      "running"
+    ],
+    "aliases": [
+      "list running processes",
+      "see active processes",
+      "ps aux",
+      "check cpu usage"
+    ],
+    "flags": [],
+    "examples": [
+      {
+        "command": "ps aux | grep node",
+        "explanation": "Lists all active Node.js processes running on the system."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Read-only process table query.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Linux man pages"
+    },
+    "requiresShell": true
+  },
+  {
+    "id": "process.powershell.getprocess",
+    "name": "Get-Process",
+    "title": "Get running processes (PowerShell)",
+    "description": "PowerShell cmdlet that gets the processes that are running on a local or remote computer.",
+    "commandTemplate": "Get-Process [name]",
+    "platforms": [
+      "windows",
+      "linux",
+      "macos"
+    ],
+    "shells": [
+      "powershell"
+    ],
+    "category": [
+      "process"
+    ],
+    "tags": [
+      "process",
+      "powershell",
+      "get-process",
+      "running tasks",
+      "taskmgr"
+    ],
+    "aliases": [
+      "list processes in powershell",
+      "show running processes windows",
+      "powershell get-process"
+    ],
+    "flags": [],
+    "examples": [
+      {
+        "command": "Get-Process node",
+        "explanation": "Lists all active Node.js process instances and memory usage."
+      }
+    ],
+    "risk": {
+      "level": "informational",
+      "destructive": false,
+      "requiresElevation": false,
+      "sideEffects": "Read-only process table query.",
+      "reversibility": "N/A"
+    },
+    "verification": {
+      "status": "reviewed",
+      "lastReviewed": "2026-09-22",
+      "source": "Microsoft Learn PowerShell"
+    }
+  }
+]
