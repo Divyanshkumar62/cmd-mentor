@@ -2,6 +2,8 @@
 
 <div align="center">
 
+[![npm version](https://img.shields.io/npm/v/cmdmentor.svg?color=cb3837)](https://www.npmjs.com/package/cmdmentor)
+[![npm downloads](https://img.shields.io/npm/dm/cmdmentor.svg)](https://www.npmjs.com/package/cmdmentor)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Node: >=18.0.0](https://img.shields.io/badge/Node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org)
 [![TypeScript: v5.6](https://img.shields.io/badge/TypeScript-v5.6-blue.svg)](https://www.typescriptlang.org)
