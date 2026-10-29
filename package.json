@@ -4,7 +4,7 @@
   "description": "Cross-platform offline-first command reference and learning assistant",
   "type": "module",
   "bin": {
-    "cmdmentor": "./dist/bin/cmdmentor.js"
+    "cmdmentor": "dist/bin/cmdmentor.js"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -40,7 +40,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Divyanshkumar62/cmd-mentor.git"
+    "url": "git+https://github.com/Divyanshkumar62/cmd-mentor.git"
   },
   "bugs": {
     "url": "https://github.com/Divyanshkumar62/cmd-mentor/issues"
