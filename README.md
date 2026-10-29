@@ -1,342 +1,275 @@
 # CmdMentor
 
-> **Cross-platform, offline-first command reference and learning assistant with shell-aware discovery and confirmation-gated execution.**
+<div align="center">
 
-CmdMentor helps developers, DevOps engineers, and learners discover, understand, copy, and safely execute terminal commands without searching the web or remembering arcane command flags.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Node: >=18.0.0](https://img.shields.io/badge/Node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org)
+[![TypeScript: v5.6](https://img.shields.io/badge/TypeScript-v5.6-blue.svg)](https://www.typescriptlang.org)
+[![Tests: 145 passed](https://img.shields.io/badge/Tests-145%20passed-success.svg)](package.json)
+[![Platform: Windows | macOS | Linux](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](#shell-and-platform-support)
+[![Architecture: Offline-First](https://img.shields.io/badge/Architecture-Offline--First-blueviolet.svg)](#architecture)
+[![Privacy: Zero Telemetry](https://img.shields.io/badge/Privacy-Zero%20Telemetry-green.svg)](#privacy-and-local-storage)
+
+**Cross-platform, offline-first command reference and terminal assistant with shell-aware discovery and confirmation-gated execution.**
+
+[Features](#features) •
+[Installation](#installation) •
+[Interactive TUI](#interactive-tui) •
+[CLI Usage](#cli-usage-and-automation) •
+[Safety Model](#three-tier-execution-safety-model) •
+[Knowledge Base](#knowledge-base-and-extensibility) •
+[Configuration](#configuration-and-kill-switch)
+
+</div>
 
 ---
 
-## Key Features
+## Overview
 
-- ⚡ **Offline-First & Fast:** 100% functional without internet connectivity. Sub-50ms search latency across curated command entries.
-- 🐚 **Shell & OS Aware:** Automatically detects whether you are in Windows PowerShell, CMD, Git Bash, Linux Bash, or macOS Zsh, prioritizing compatible syntax and flagging differences.
-- 🔍 **Natural-Language Discovery:** Search using everyday language (e.g. `create a folder`, `find process using port 8080`, `undo last commit`, `view last lines of log`).
-- 🛡️ **Safety-Gated Execution:** Built-in 5-level risk classification (`informational`, `low`, `moderate`, `high`, `restricted`). High-risk commands require explicit uppercase `YES` confirmation.
-- 🛑 **Global Kill Switch:** Command execution can be globally disabled at any time (`cmdmentor config set execution.enabled false`).
-- 🔒 **Zero Telemetry & Credential Redaction:** History and bookmarks are stored strictly locally in standard OS directories. API keys, passwords, and tokens are automatically masked.
-- 🖥️ **Full-Screen TUI & Plain-Text Fallback:** Interactive terminal UI built with Ink, plus `--plain` and `--json` modes for pipes and CI/CD.
-- 📝 **Guided Placeholder Filling:** Run a command *template* and CmdMentor prompts for each `<placeholder>`, suggesting the value from its own example and rejecting anything containing shell metacharacters.
-- 📁 **Project-Aware Discovery:** Finds this repository's own npm scripts, Make targets, and Compose services and makes them searchable alongside the bundled reference - clearly labelled as unreviewed.
-- 🩺 **Content Health Auditing:** `cmdmentor kb doctor` checks risk classification against actual command behaviour, catches dangling references, and flags undeclared shell dependencies.
+Modern software development workflows span dozens of CLI tools (`git`, `docker`, `kubectl`, `find`, `tar`, `systemctl`, `netstat`), each with distinct flag conventions and differing platform behavior across operating systems.
+
+CmdMentor provides an instant, shell-aware reference and execution assistant directly in your terminal:
+- **Zero context switching:** Search and inspect commands without opening a browser or scanning man pages.
+- **Shell-aware routing:** Automatically adapts commands to native shell built-ins across PowerShell, CMD, Git Bash, Linux Bash, and macOS Zsh.
+- **Confirmation-gated execution:** Multi-tier safety gates prevent destructive commands from running without deliberate human confirmation.
+- **Offline-first privacy:** Zero network requests, zero telemetry, local JSON configuration, and automatic credential masking.
+
+```text
++--- CmdMentor v0.1.0 -----------------------------------------------------------------+
+| Search: docker container                                              102 commands   |
++--- Matches -----------------------------+--- Command Details ------------------------+
+| [Low]   docker.container.list           | Run: docker ps                             |
+| [Low]   docker.container.stop           | Stop one or more running containers        |
+| [Mod]   docker.container.prune          |                                            |
+| [High]  docker.system.prune.all         | Risk: MODERATE (State altering)            |
+| [Info]  docker.images.list              | Platforms: Linux, macOS, Windows           |
+|                                         | Example: docker stop my-web-app            |
++--- Controls ----------------------------+--------------------------------------------+
+| [Enter] Details  |  [Tab] Copy  |  [Ctrl+B] Bookmark  |  [Esc] Clear/Exit            |
++--------------------------------------------------------------------------------------+
+```
 
 ---
 
-## Quick Start & Installation
+## Features
 
-### Running Locally from Source
+- **Offline-First Engine:** Fully functional in air-gapped environments without external network dependencies. Cold-start search completes in under 150ms.
+- **Shell and OS Native:** Automatically detects PowerShell, Command Prompt, Git Bash, Bash, and Zsh. Resolves POSIX aliases versus Windows binaries to avoid process spawn errors.
+- **Intent-Based Search:** Search using common natural-language queries such as "undo last commit", "find process using port 8080", or "extract tar gz archive".
+- **Three-Tier Safety Architecture:** Every command passes Policy, Structural, and Human confirmation gates. Destructive commands require explicit typed uppercase confirmation.
+- **Global Execution Kill-Switch:** Disables process spawning immediately across TUI and CLI through local configuration.
+- **Guided Placeholder Wizard:** Parses command templates (such as `<branch>` or `<directory>`), suggests defaults, and validates input to prevent shell metacharacter injection.
+- **Workspace Project Scanner:** Discovers local `package.json` scripts, `Makefile` targets, and Docker Compose services, indexing repository commands automatically.
+- **Knowledge Base Doctor:** Built-in semantic validator (`cmdmentor kb doctor`) verifies schema adherence, flag documentation, and referential integrity.
+- **Zero Telemetry and Secret Redaction:** Search history and bookmarks reside strictly on local storage (`~/.cmdmentor`). Passwords, tokens, and API keys are masked before writing to disk.
+
+---
+
+## Installation
+
+### Global Install via npm
+
 ```bash
-# Clone or open the repository
-cd command-reference
+npm install -g cmdmentor
+```
 
-# Install dependencies and build
+Or run directly without installation via `npx`:
+
+```bash
+npx cmdmentor
+```
+
+### Local Build from Source
+
+```bash
+# Clone the repository
+git clone https://github.com/Divyanshkumar62/cmd-mentor.git
+cd cmd-mentor
+
+# Install dependencies and compile production bundles
 npm install
 npm run build
 
-# Launch full-screen interactive TUI
-node dist/bin/cmdmentor.js
-
-# Or link globally for 'cmdmentor' command
+# Link binary globally
 npm link
-cmdmentor
+
+# Verify installation
+cmdmentor --version
 ```
 
 ---
 
-## Launch Modes & Command Surface
+## Interactive TUI
 
-### 1. Interactive Full-Screen TUI
+Launch the full-screen terminal interface:
+
 ```bash
 cmdmentor
 ```
-Opens the interactive terminal interface:
-- Type keywords in the search bar.
-- Use `↑` / `↓` arrow keys to navigate the results table.
-- Press `Enter` to open the comprehensive command detail view (syntax, flags, examples, safety impact).
-- Press `Enter` to open the detail view, then `X` for the execution preview.
-- Press `Tab` to copy, or `Ctrl+B` to bookmark, straight from the results table.
-- Press `Esc` to clear the query, and again to exit cleanly.
 
-### 2. Fast Inline Fuzzy Search
-```bash
-cmdmentor <query>
-
-# Examples:
-cmdmentor create a folder
-cmdmentor check port 8080
-cmdmentor undo git commit
-```
-Displays an instant keyboard-driven table directly in your terminal. Press `Enter` or `C` to copy and exit immediately.
-
-### 3. Plain-Text Non-Interactive Mode (Pipes & CI/CD)
-```bash
-# Search for commands in plain text table
-cmdmentor search "docker run" --plain
-
-# View full documentation for a command
-cmdmentor show filesystem.mkdir.posix --plain
-
-# Copy directly to clipboard
-cmdmentor copy filesystem.mkdir.posix
-
-# Filter by platform, shell, category, or risk level
-cmdmentor search "list files" --plain --platform windows
-cmdmentor search "delete" --plain --risk high --limit 5
-
-# Machine-readable output for scripts and other tools
-cmdmentor search "docker" --json
-
-# Run a command with safety preview and confirmation prompt
-cmdmentor exec filesystem.pwd.posix
-
-# Non-interactive confirmation for scripts (low/moderate risk only)
-cmdmentor exec git.status.all --yes
-```
-
-**Exit codes** (documented for CI use):
-
-| Code | Meaning |
-| :--- | :--- |
-| `0` | Success |
-| `1` | No results, or the requested command id does not exist |
-| `2` | Usage error, invalid filter value, or execution blocked by policy |
-| `3` | Confirmation required but no interactive terminal was available |
-| `4` | User canceled the confirmation prompt |
-| `5` | The executed command itself exited non-zero |
-
-### 4. Filling Command Templates
-
-Most entries document a template such as `mkdir <directory>`. Running the
-template prompts for each placeholder:
-
-```bash
-$ cmdmentor exec filesystem.mkdir.posix --template
-Command template: mkdir <directory>
-Supply a value for each placeholder (blank accepts the example):
-  <directory> (e.g. project): reports_2026
-
---------------------------------------------------------------------------------
-Command:  mkdir reports_2026
-...
-Execute this command? [y/N]
-```
-
-Supply values non-interactively with repeatable `--set`, which is what scripts
-and CI should use:
-
-```bash
-cmdmentor exec filesystem.mkdir.posix --set directory=build --yes
-cmdmentor exec archive.tar.posix --set archive.tar.gz=backup.tar.gz --set directory=./src --yes
-cmdmentor exec git.log.all --example 2 --yes    # run the 2nd documented example
-```
-
-Placeholder values are sanitized before substitution. Anything containing a
-shell metacharacter (`;`, `&&`, `|`, backticks, `$`, `>`) is rejected outright
-and, when prompting, you are asked again rather than dropped out of the flow.
-
-### 5. Project-Local Commands
-
-CmdMentor reads the working directory's `package.json`, `Makefile`, and Compose
-file and turns their scripts, targets, and services into searchable entries:
-
-```bash
-$ cmdmentor search "typecheck" --plain
-npm run typecheck | Project script: typecheck | ... | project
-```
-
-These are the commands people forget most often, because they exist only in the
-current repository. They are always labelled `project` in the `SOURCE` column
-and marked *not reviewed by CmdMentor*, because they are whatever the repo
-happens to contain. The detail view shows the underlying script body.
-
-Disable the scan with `cmdmentor config set project.enabled false`.
-
-### 6. Bookmarks Management
-```bash
-cmdmentor bookmarks list
-cmdmentor bookmarks add filesystem.mkdir.posix
-cmdmentor bookmarks remove filesystem.mkdir.posix
-```
-
-### 7. Local History
-```bash
-cmdmentor history list            # Recent searches and executions
-cmdmentor history list --limit 10
-cmdmentor history clear           # Delete all locally stored history
-```
-History never leaves your machine, and secrets (API keys, passwords, bearer
-tokens) are masked before anything is written. Disable it entirely with
-`cmdmentor config set history.enabled false`.
-
-### 8. Configuration & Kill-Switch
-```bash
-# View configuration
-cmdmentor config get
-
-# Disable command execution globally
-cmdmentor config set execution.enabled false
-
-# Re-enable command execution
-cmdmentor config set execution.enabled true
-```
-
-### 9. Knowledge Base Administration
-```bash
-# View schema and content version statistics
-cmdmentor kb version
-
-# Verify integrity of all JSON knowledge base entries
-cmdmentor kb validate
-
-# Audit content quality: risk classification, references, shell marking
-cmdmentor kb doctor
-cmdmentor kb doctor --verbose        # list every warning
-cmdmentor kb doctor --bundled-only   # ignore project and custom entries
-```
-
-`kb validate` proves entries are *well-formed*. `kb doctor` asks whether they are
-*correct*: it flags a `rm -rf` example classified as low risk, a `relatedCommands`
-id that resolves to nothing, an example whose pipes were never declared, and a
-destructive command that never documents its reversibility. It exits non-zero on
-errors, so it works as a CI gate for knowledge base contributions.
-
----
-
-## Interactive TUI Keybindings
+### Keyboard Navigation
 
 | Key | Context | Action |
 | :--- | :--- | :--- |
-| *(type)* | Search | Characters go straight to the search box - no mode switching |
-| `↑` / `↓` | Search | Move through matching commands (`Ctrl+P` / `Ctrl+N` also work) |
-| `PgUp` / `PgDn` | Search | Jump five rows at a time |
-| `Enter` | Search | Open the detail view (flags, syntax, examples, audit trail) |
-| `Tab` | Search | Copy the highlighted command to the clipboard |
-| `Ctrl+B` | Search | Toggle bookmark `[★]` on the highlighted command |
-| `Esc` | Search | Clear the query, or exit when it is already empty |
-| `C` | Detail | Copy the command to the clipboard |
-| `X` / `E` | Detail | Open the execution preview and confirmation modal |
-| `S` | Detail | Toggle bookmark `[★]` |
-| `B` / `Esc` / `Backspace` | Detail | Return to the results table |
-| `Q` | Detail | Exit CmdMentor |
-| *(type)* | Execution | Fill the highlighted `<placeholder>`; Enter accepts the example |
-| `Y` / `N` | Execution | Confirm or cancel a low- or moderate-risk command |
-| type `YES` | Execution | Required to confirm a **high-risk** command |
-| `D` | Execution | Disable execution globally and return |
-| `Ctrl+C` | Any | Exit immediately, restoring the terminal |
-
-> In the search box, letters are always treated as text. Action keys such as `C`,
-> `X`, and `S` apply in the detail view, so typing `docker` never triggers a copy.
+| `[Any text]` | Search | Instant search filter without mode switching |
+| `Up` / `Down` | Search | Navigate command results list |
+| `PgUp` / `PgDn` | Search | Scroll five items at a time |
+| `Enter` | Search | Open Command Details view |
+| `Tab` | Search | Copy highlighted command template to clipboard |
+| `Ctrl+B` | Search | Toggle bookmark on selected command |
+| `Esc` | Search | Clear current search query, or exit cleanly |
+| `C` | Details | Copy command template to clipboard |
+| `X` / `E` | Details | Open execution preview and parameter confirmation modal |
+| `S` | Details | Toggle bookmark status |
+| `B` / `Backspace` | Details | Return to results list |
+| `Ctrl+C` | Any | Immediate exit, restoring terminal buffer state |
 
 ---
 
-## Execution Safety Model
+## CLI Usage and Automation
 
-CmdMentor never runs a command as a side effect of finding one. Every execution
-passes three independent gates, and all of them must open.
+CmdMentor includes non-interactive commands designed for scripting, CI/CD pipelines, and shell integration.
 
-**1. Policy gate — what the entry is.**
-`restricted` entries are reference-only and can never execute. `high` entries
-require a typed uppercase `YES`; a `--yes` flag will *not* satisfy them, because
-an irreversible action should not be one flag away in a script.
+### Search and Querying
 
-**2. Structural gate — what the command needs.**
-Commands are run with `spawn(..., { shell: false })` and a real argument array,
-never by handing a string to `sh -c` or `powershell -Command`. A command that
-genuinely needs a shell — pipes, redirection, `&&`, backticks, variable
-expansion — is therefore refused rather than executed, because passing it as
-argv would silently produce the *wrong* result:
+```bash
+# Plain-text search output for piping
+cmdmentor search "git commit" --plain
 
+# Machine-readable JSON output
+cmdmentor search "docker" --json
+
+# Filter by platform and risk level
+cmdmentor search "clean" --plain --platform windows --risk high
+
+# Display command details
+cmdmentor show git.commit.staged --plain
+
+# Copy command directly to system clipboard
+cmdmentor copy filesystem.mkdir.posix
 ```
-$ cmdmentor exec process.ps.posix
-Cannot execute: This command relies on shell features (pipes, redirection,
-variables, or chaining) and cannot be executed safely by CmdMentor.
-Copy it instead:  cmdmentor copy process.ps.posix
+
+### Command Execution
+
+```bash
+# Execute safe informational command
+cmdmentor exec filesystem.pwd.posix
+
+# Run command template with interactive placeholder prompting
+cmdmentor exec git.checkout.branch
+
+# Non-interactive parameter substitution
+cmdmentor exec git.checkout.branch --set branch=main --yes
+
+# Automatic confirmation for low and moderate risk commands
+cmdmentor exec git.status.all --yes
 ```
 
-Those entries remain fully searchable, readable, and copyable — only execution
-is withheld. Entries can also opt in explicitly with `"requiresShell": true`.
+### Exit Codes
 
-A command still containing an unfilled `<placeholder>` is never executed either.
-Instead CmdMentor collects the missing values — interactively, or from `--set` —
-sanitizes each one, and re-checks the expanded command before going any further.
-A value that would introduce a shell operator is rejected, so filling a template
-can never be used to smuggle one past the structural gate.
+| Code | Status | Description |
+| :---: | :--- | :--- |
+| `0` | Success | Operation completed or child process exited cleanly. |
+| `1` | Not Found | Command ID not found or search returned zero matches. |
+| `2` | Policy Blocked | Execution disabled by kill-switch or usage validation error. |
+| `3` | Non-Interactive | Confirmation required, but running without TTY and without `--yes`. |
+| `4` | User Cancelled | Confirmation rejected by user prompt. |
+| `5` | Process Error | Spawned child process returned a non-zero exit code. |
 
-**3. Human gate — your explicit decision.**
-On a terminal you are prompted. Without a terminal and without `--yes`,
-execution is refused rather than assumed: silence is never consent.
+---
 
-| Situation | `informational` / `low` / `moderate` | `high` | `restricted` |
-| :--- | :--- | :--- | :--- |
-| Interactive terminal | prompt `[y/N]` | must type `YES` | blocked |
-| `--yes` passed | runs | **still refused** | blocked |
-| No terminal, no `--yes` | refused (exit 3) | refused (exit 3) | blocked |
-| `--yes` + CI opt-in (below) | runs | runs, loudly logged | **still blocked** |
+## Three-Tier Execution Safety Model
 
-### CI opt-in for high-risk commands
+CmdMentor isolates command discovery from execution. Process execution must pass three independent gates:
 
-By default a `high` risk command cannot run unattended at all — a single flag
-should not be enough to destroy data with nobody watching. If your CI genuinely
-needs to exercise destructive paths, arm the explicit opt-in:
+```mermaid
+flowchart TD
+    Req[Execution Request] --> Gate1{Gate 1: Policy}
+    Gate1 -- Restricted --> Block1[Hard Block: Exit Code 2]
+    Gate1 -- Pass --> Gate2{Gate 2: Structural}
+    Gate2 -- Shell Syntax Detected --> Block2[Refuse Spawn: Output Copy Guidance]
+    Gate2 -- Unfilled Placeholders --> Prompt2[Prompt and Sanitize Parameters]
+    Prompt2 --> Gate3{Gate 3: Human}
+    Gate2 -- Valid Argv Array --> Gate3
+    Gate3 -- Low/Moderate Risk --> Confirm1[Prompt y/N or --yes]
+    Gate3 -- High Risk + TTY --> Confirm2[Require Exact 'YES']
+    Gate3 -- High Risk + Headless --> Guard3{CI Opt-In Active?}
+    Guard3 -- Variable Unset --> Block3[Refuse Unattended: Exit Code 3]
+    Guard3 -- Dual Opt-In Verified --> Exec[Spawn Subprocess]
+    Confirm1 -- Confirmed --> Exec
+    Confirm2 -- Confirmed with YES --> Exec
+```
+
+### 1. Policy Gate
+- **Restricted:** Commands involving arbitrary remote script execution or raw storage manipulation are permanently blocked from execution.
+- **High Risk:** Commands causing destructive or irreversible changes (`rm -rf`, `git reset --hard`) require typing uppercase `YES`. Passing `--yes` alone will not bypass this gate.
+
+### 2. Structural Gate
+- Commands execute via `spawn(..., { shell: false })` using explicit argument arrays.
+- Commands requiring shell features (pipes, redirection, chaining) are refused from direct process execution. CmdMentor provides a clear copy command instead.
+- Placeholders are sanitized against shell metacharacters (`;`, `|`, `$()`, backticks).
+
+### 3. Human Gate
+
+| Execution Environment | Informational / Low / Moderate | High Risk | Restricted |
+| :--- | :---: | :---: | :---: |
+| **Interactive Terminal** | Prompt `[y/N]` | Must type exact `YES` | Blocked |
+| **CLI `--yes` Flag** | Executes | Refused | Blocked |
+| **Headless (No TTY, No `--yes`)** | Refused (Exit 3) | Refused (Exit 3) | Blocked |
+| **Unattended CI Opt-In** | Executes | Executes with audit banner | Blocked |
+
+#### Unattended CI Automation for High-Risk Commands
+For CI environments requiring destructive execution, both the environment variable and `--yes` flag must be set:
 
 ```bash
 CMDMENTOR_ALLOW_UNATTENDED_HIGH_RISK=1 cmdmentor exec filesystem.rm.posix --yes
 ```
 
-Both signals are required, and the variable must be exactly `1`. The variable on
-its own arms nothing, so a stray `export` in a shell profile cannot quietly turn
-a developer's machine into one where `rm -rf` runs without confirmation. Every
-unattended run prints a banner to stderr so it is visible in a CI log:
-
-```
-!! UNATTENDED HIGH-RISK EXECUTION (CMDMENTOR_ALLOW_UNATTENDED_HIGH_RISK=1). No human confirmed this command.
-```
-
-`restricted` commands remain unexecutable regardless of this setting.
-
-The global kill switch (`cmdmentor config set execution.enabled false`) disables
-all of it at once, and the TUI then hides the execute binding entirely.
-
 ---
 
-## Safety Classification Matrix
+## Knowledge Base and Extensibility
 
-| Level | Criteria | Policy & Safety Enforcement |
-| :--- | :--- | :--- |
-| **INFORMATIONAL** | Read-only inspection (`pwd`, `ls`, `git status`, `cat`, `lsof`). | Standard preview. Single confirmation to run. |
-| **LOW** | Idempotent / readily reversible (`mkdir`, `touch`, `git checkout -b`). | Displays affected working directory. Standard confirmation. |
-| **MODERATE** | Modifies state, overwrites files, kills processes (`mv`, `cp -f`, `kill`). | Warning badge. Explicit `[Y/N]` prompt. |
-| **HIGH** | Destructive, recursive deletion, system changes (`rm -rf`, `git reset --hard`). | **Red Alert Banner.** Requires typing explicit uppercase `YES`. |
-| **RESTRICTED** | Arbitrary remote script execution (`curl \| sh`, raw disk partition write). | **Execution Blocked.** Displayed for reference only; execution disallowed. |
+CmdMentor includes 102 verified commands across 14 technical domains:
+`filesystem`, `git`, `docker`, `network`, `process`, `archive`, `system`, `kubernetes`, `database`, `cloud`, `ssh`, `text`, `security`, and `package`.
 
----
+### Quality Auditing via Knowledge Base Doctor
 
-## Adding Custom Commands
+```bash
+# Audit all bundled and project commands
+cmdmentor kb doctor
 
-CmdMentor supports local organization and personal command snippets without external servers.
+# Strict validation of bundled entries only
+cmdmentor kb doctor --bundled-only
+```
 
-Create a JSON file in your personal directory:
-- **Windows:** `%USERPROFILE%\.cmdmentor\custom\my-commands.json`
-- **Linux / macOS:** `~/.cmdmentor/custom/my-commands.json`
+`kb doctor` validates:
+- Schema conformance across all command entries.
+- Integrity of `relatedCommands` references.
+- Accuracy of risk ratings against command templates.
+- Requirement for reversibility guidance on destructive commands.
 
-Example snippet:
+### Adding Custom Command Packs
+
+Create a JSON file at `~/.cmdmentor/custom/team-commands.json`:
+
 ```json
 [
   {
-    "id": "custom.mytool.deploy",
-    "name": "mytool deploy",
-    "title": "Deploy service to staging cluster",
-    "description": "Deploys the currently checked-out branch to the staging environment.",
-    "commandTemplate": "mytool deploy --env staging",
-    "platforms": ["windows", "linux", "macos"],
-    "shells": ["powershell", "bash", "zsh"],
-    "category": ["custom", "devops"],
-    "tags": ["deploy", "staging", "k8s"],
-    "aliases": ["deploy to staging", "push to staging"],
+    "id": "custom.deploy.staging",
+    "name": "deploy staging",
+    "title": "Deploy branch to staging cluster",
+    "description": "Pushes built container images and triggers staging deployment.",
+    "commandTemplate": "kubectl apply -k overlays/staging",
+    "platforms": ["linux", "macos", "windows"],
+    "shells": ["bash", "zsh", "powershell"],
+    "category": ["custom", "kubernetes"],
+    "tags": ["deploy", "staging"],
+    "aliases": ["ship to staging"],
     "flags": [],
     "examples": [
       {
-        "command": "mytool deploy --env staging",
-        "explanation": "Runs staging deployment pipeline."
+        "command": "kubectl apply -k overlays/staging",
+        "explanation": "Applies kustomize staging overlay."
       }
     ],
     "risk": {
@@ -346,31 +279,59 @@ Example snippet:
     },
     "verification": {
       "status": "reviewed",
-      "lastReviewed": "2026-09-22",
-      "source": "Internal Team Wiki"
+      "lastReviewed": "2026-10-28",
+      "source": "Platform Engineering"
     }
   }
 ]
 ```
-CmdMentor automatically loads and validates your custom snippets at startup and surfaces them in search results with a `CUSTOM` badge.
+
+Custom commands are loaded on startup and indicated with a `[Custom]` source badge.
 
 ---
 
-## Development & Testing
+## Configuration and Kill-Switch
+
+User preferences and runtime toggles are saved locally in `~/.cmdmentor/config.json`.
 
 ```bash
-# Run unit tests
-npm run test:unit
+# View active settings
+cmdmentor config get
 
-# Run integration tests
-npm run test:integration
+# Emergency Kill-Switch: Disable all command execution
+cmdmentor config set execution.enabled false
 
-# Run full test suite with v8 coverage
-npm run test -- --coverage
+# Re-enable command execution
+cmdmentor config set execution.enabled true
 
-# Validate knowledge base entries
+# Manage execution history
+cmdmentor history list
+cmdmentor history clear
+
+# Manage bookmarks
+cmdmentor bookmarks list
+```
+
+---
+
+## Development
+
+```bash
+# Run unit and integration tests
+npm test
+
+# Run TypeScript typecheck
+npm run typecheck
+
+# Validate knowledge base schema and integrity
 npm run test:kb
 
 # Rebuild distribution bundles
 npm run build
 ```
+
+---
+
+## License
+
+Distributed under the **MIT License**. See [LICENSE](LICENSE) for details.

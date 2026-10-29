@@ -23,7 +23,8 @@
     "typecheck": "tsc --noEmit",
     "test:safety": "vitest run tests/unit/safety.test.ts tests/unit/execution-gate.test.ts tests/unit/placeholders.test.ts",
     "kb:doctor": "node dist/bin/cmdmentor.js kb doctor --bundled-only",
-    "verify": "npm run typecheck && npm run build && npm test && npm run kb:doctor"
+    "verify": "npm run typecheck && npm run build && npm test && npm run kb:doctor",
+    "prepublishOnly": "npm run verify"
   },
   "keywords": [
     "cli",
@@ -35,8 +36,16 @@
     "bash",
     "developer-tools"
   ],
-  "author": "",
+  "author": "Divyansh Kumar <kumardivyansh62@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Divyanshkumar62/cmd-mentor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Divyanshkumar62/cmd-mentor/issues"
+  },
+  "homepage": "https://github.com/Divyanshkumar62/cmd-mentor#readme",
   "dependencies": {
     "clipboardy": "^4.0.0",
     "commander": "^12.1.0",
